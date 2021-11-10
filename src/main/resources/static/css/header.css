@@ -1069,7 +1069,7 @@ h3 {
 
 /* line 119, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul li a {
-  color: #643B32;         
+  color: white;         
   font-size: 16px;
   text-transform: capitalize;
   font-weight: 500;
@@ -1123,14 +1123,14 @@ h3 {
 
 /* line 147, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
 
-.color-header {
-  background:#eb9956ed;
+.color-header {      /*color de la fondo header*/
+  background:#11992E;
 }
 
 .header-area .main-header-area .main-menu ul  .sin li  a::before {
   position: absolute;
   content: "";
-  background: #5A352C;
+  background: black;
   width: 100%;
   height: 2px;
   bottom: 0;
@@ -1159,7 +1159,7 @@ h3 {
 
 /* line 170, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul .sin li:hover > a {
-  color: #5A352C !important;
+  color: black !important;
 text-decoration: none;
 }
 
