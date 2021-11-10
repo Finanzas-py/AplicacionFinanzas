@@ -7,6 +7,9 @@ import pe.edu.upc.spring.model.Users;
 
 
 public interface IUserService {
+	
+	
+	
 	public boolean save(Users user);
 
 }

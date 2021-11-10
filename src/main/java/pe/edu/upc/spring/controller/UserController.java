@@ -19,29 +19,20 @@ import pe.edu.upc.spring.service.IUserService;
 public class UserController {
 	@Autowired
 	private IUserService uService;
-
-
-	
-	@RequestMapping("/inicio")
-	public String irPaginaInicio(Model model) {
-		return "bienvenido";
-	}
-
-	
 	
 
 	@RequestMapping("/registrar")
 	public String registrar(@ModelAttribute Users objUser, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
-			return "User";
+			return "user";
 		} else {
 			boolean flag = uService.save(objUser);
 			if (flag) {
 				
-				return "redirect:/owner/bienvenido";
+				return "redirect:/user/bienvenidoUser";
 			} else {
 				model.addAttribute("mensaje", "Ocurrio un error");
-				return "redirect:/owner/irRegistrar";
+				return "redirect:/user/irRegistrar";
 			}
 		}
 	}
