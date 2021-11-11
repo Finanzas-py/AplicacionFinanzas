@@ -64,7 +64,7 @@ public class UserController {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listCompany", cService.listCompany());
 			model.addAttribute("listType", tService.listType());
-			return "user";
+			return "users";
 		} else {
 			boolean flag = uService.save(objUser);
 			if (flag) {
