@@ -43,6 +43,12 @@ public class UserController {
 		model.addAttribute("user", new Users());
 		return "userLogin";
 	}
+	
+	@RequestMapping("/menu")
+	public String PaginaMenu() {
+		
+		return "userMenu";
+	}
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {

@@ -1,4 +1,5 @@
 
+
 .Main-container{
     width: 100%;
     margin: 0 auto;
@@ -11,7 +12,7 @@
     justify-content: center;
     align-items: center;
     padding: 15px;
-    background: rgb(240, 170, 91);
+    background: #11992E;;
 }
 
 .wrap-register{
@@ -37,7 +38,7 @@ h1{
     font-size: 18px;
     font-weight: bold;
     
-    background-color: #FF9B29;
+    background-color:  #11992E;;
     border: none;
     color: white;
     margin-top: 20px;
