@@ -30,12 +30,13 @@ public class Users implements Serializable {
 	@Column(name = "email", length = 60, nullable = false)
 	private String email;
 	
-	@Column(name = "phoneNumber", length = 60, nullable = false)
-	private int phoneNumber;
-	
+
 	@Column(name = "password", length = 20, nullable = false)
 	private String password;
 
+	@Column(name = "phoneNumber", length = 60, nullable = false)
+	private int phoneNumber;
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "idCompany", nullable = true)

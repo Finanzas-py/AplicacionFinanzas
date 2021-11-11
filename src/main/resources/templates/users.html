@@ -18,32 +18,32 @@
 <body>
 	<div class="registration-form" data-aos="fade-right">
 
-		<form th:action="@{/user/registrar}" method="post"
-			th:object="${user}">
+		<form th:action="@{/user/registrar}" method="post" th:object="${user}">
 
 			<div class="form-icon-c">
 				<img th:src="@{/imagenes/icon-dueno.png}">
 			</div>
 
+
+
 			<div class="row">
 				<div class="form-group col-sm-6">
-					<input type="text" class="form-control item" placeholder="Nombre"/> 
-					
+					<input type="text" class="form-control item" placeholder="Nombre"
+						th:field="*{name}" th:errorclass="'form-control alert-danger'" /> <small
+						class="form-text text-danger" th:if="${#fields.hasErrors('name')}"
+						th:errors="*{name}"></small>
+
 				</div>
 
 				<div class="form-group col-sm-6">
-					<input type="text" class="form-control item"
-						placeholder="Apellidos" />
+					<input type="text" class="form-control item" placeholder="Apellido"
+						th:field="*{lastName}" th:errorclass="'form-control alert-danger'" />  <small
+						class="form-text text-danger"
+						th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></small>
 
 				</div>
 			</div>
 
-			<div class="form-group">
-				<input type="text" class="form-control item" placeholder="email" />
-
-
-			</div>
-			
 
 			<button type="submit" class="btn btn-block create-account">Crear
 				Cuenta</button>

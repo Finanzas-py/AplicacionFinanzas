@@ -1,5 +1,5 @@
 body{
-    background-color: rgb(255, 189, 115);
+    background-color: #11992E;
 }
 
 .registration-form{
@@ -49,7 +49,7 @@ body{
     padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
-    background-color: #FF9B29;
+    background-color: #11992E;
     border: none;
     color: white;
     margin-top: 20px;
@@ -109,7 +109,4 @@ body{
 
 #centrado {
 	 text-align:center;
-}
-#centrado2 {
-	 
 }
