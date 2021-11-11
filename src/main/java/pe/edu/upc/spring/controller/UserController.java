@@ -35,6 +35,12 @@ public class UserController {
 		return "bienvenidoUser"; 
 	}
 	
+	@RequestMapping("/login")
+	public String PaginaLogin(Model model) {
+		model.addAttribute("user",new Users());
+		return "userLogin"; 
+	}
+	
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
 		model.addAttribute("user",new Users());
