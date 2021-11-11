@@ -29,6 +29,10 @@ public class UserServiceImpl implements IUserService {
 	}
 
 
-
+	@Override
+	@Transactional(readOnly=true)
+	public List<Users> findByEmailAndPassword(String email, String password) {
+		return dUser.findByEmailAndPassword(email, password);
+	}
 	
 }
