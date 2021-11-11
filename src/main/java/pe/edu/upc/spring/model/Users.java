@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import net.bytebuddy.implementation.bind.annotation.Default;
+
 @Entity
 @Table(name = "Users")
 public class Users implements Serializable {
@@ -34,8 +36,9 @@ public class Users implements Serializable {
 	@Column(name = "password", length = 20, nullable = false)
 	private String password;
 
+	
 	@Column(name = "phoneNumber", length = 60, nullable = false)
-	private int phoneNumber;
+	private String phoneNumber;
 	
 	
 	@ManyToOne
@@ -47,21 +50,21 @@ public class Users implements Serializable {
 	private Type type;
 	
 	@Column(name = "type_text", length = 20, nullable = false)
-	private int type_text;
+	private String type_text;
 
 	public Users() {
 		super();
 	}
 
-	public Users(int idUsers, String name, String lastName, String email, int phoneNumber, String password,
-			Company company, Type type, int type_text) {
+	public Users(int idUsers, String name, String lastName, String email, String password, String phoneNumber,
+			Company company, Type type, String type_text) {
 		super();
 		this.idUsers = idUsers;
 		this.name = name;
 		this.lastName = lastName;
 		this.email = email;
-		this.phoneNumber = phoneNumber;
 		this.password = password;
+		this.phoneNumber = phoneNumber;
 		this.company = company;
 		this.type = type;
 		this.type_text = type_text;
@@ -99,20 +102,20 @@ public class Users implements Serializable {
 		this.email = email;
 	}
 
-	public int getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(int phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public Company getCompany() {
@@ -131,13 +134,20 @@ public class Users implements Serializable {
 		this.type = type;
 	}
 
-	public int getType_text() {
+	public String getType_text() {
 		return type_text;
 	}
 
-	public void setType_text(int type_text) {
+	public void setType_text(String type_text) {
 		this.type_text = type_text;
 	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+	
 
 
 

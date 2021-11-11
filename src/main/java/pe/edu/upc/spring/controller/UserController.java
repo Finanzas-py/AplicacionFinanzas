@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.Users;
+import pe.edu.upc.spring.service.ICompanyService;
+import pe.edu.upc.spring.service.ITypeService;
 import pe.edu.upc.spring.service.IUserService;
 
 
@@ -19,10 +21,19 @@ public class UserController {
 	@Autowired
 	private IUserService uService;
 	
+	@Autowired
+	private ITypeService tService;
+	
+	@Autowired
+	private ICompanyService cService;
+	
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
-		model.addAttribute("user", new Users());
+		model.addAttribute("user",new Users());
+		model.addAttribute("listCompany",cService.listCompany());
+		model.addAttribute("listType",tService.listType());
+
 		return "users";
 	}
 	
