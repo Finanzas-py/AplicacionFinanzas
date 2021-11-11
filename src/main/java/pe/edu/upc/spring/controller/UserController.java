@@ -27,7 +27,14 @@ public class UserController {
 	@Autowired
 	private ICompanyService cService;
 	
+	public Users sessionUser;
 
+	@RequestMapping("/inicio")
+	public String PaginaBienvenida(Model model) {
+		model.addAttribute("user",sessionUser);
+		return "bienvenidoUser"; 
+	}
+	
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
 		model.addAttribute("user",new Users());
@@ -40,14 +47,15 @@ public class UserController {
 	@RequestMapping("/registrar")
 	public String registrar(@ModelAttribute Users objUser, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
+			model.addAttribute("listCompany",cService.listCompany());
+			model.addAttribute("listType",tService.listType());
 			return "user";
 		} else {
 			boolean flag = uService.save(objUser);
 			if (flag) {
-				
-				return "redirect:/user/bienvenidoUser";
+				sessionUser=objUser;
+				return "redirect:/user/inicio";
 			} else {
-				model.addAttribute("mensaje", "Ocurrio un error");
 				return "redirect:/user/irRegistrar";
 			}
 		}
