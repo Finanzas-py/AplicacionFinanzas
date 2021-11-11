@@ -58,9 +58,9 @@
 
 	</div>
 
-	<div th:fragment="header_dueno">
+	<div th:fragment="header_user">
 
-		<div class="header-area " th:object="${owner}">
+		<div class="header-area " th:object="${user}">
 			<div id="sticky-header" class="main-header-area">
 
 
@@ -82,13 +82,11 @@
 										th:src="@{/imagenes/d97bbb08017ac2309307f0822e63d082.png}"
 										width="80" alt=""></a></li>
 								<li class="pull-right"><a
-									th:text="'Bienvenido, ' + ${owner.firstNames}"></a></li>
+									th:text="'Bienvenido, ' + ${user.name}"></a></li>
 
 								<div class="sin">
 									<li class="pull-left"><a th:href="@{/owner/bienvenido}">Inicio</a></li>
-									<li class="pull-left"><a th:href="@{/owner/tips}">Tips</a></li>
-									<li class="pull-left"><a th:href="@{/owner/noticias}">Noticias</a></li>
-
+							
 								</div>
 
 
