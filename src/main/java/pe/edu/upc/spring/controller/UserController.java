@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,10 +44,10 @@ public class UserController {
 		model.addAttribute("user", new Users());
 		return "userLogin";
 	}
-	
+
 	@RequestMapping("/menu")
 	public String PaginaMenu() {
-		
+
 		return "userMenu";
 	}
 
@@ -60,7 +61,8 @@ public class UserController {
 	}
 
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute Users objUser, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@ModelAttribute("user") @Valid Users objUser, BindingResult binRes, Model model)
+			throws ParseException {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listCompany", cService.listCompany());
 			model.addAttribute("listType", tService.listType());
@@ -77,18 +79,23 @@ public class UserController {
 	}
 
 	@RequestMapping("/validarUsuario")
-	public String ingresarCuenta(@ModelAttribute Users objUser, BindingResult binRes) throws ParseException {
-		List<Users> listUsers;
-		objUser.setEmail(objUser.getEmail());
-		objUser.setPassword(objUser.getPassword());
-		listUsers = uService.findByEmailAndPassword(objUser.getEmail(), objUser.getPassword());
+	public String ingresarCuenta(@ModelAttribute("user") @Valid Users objUser, BindingResult binRes) throws ParseException {
 
-		if (!listUsers.isEmpty()) {
-			objUser = listUsers.get(0);
-			sessionUser = objUser;
-			return "redirect:/user/inicio";
+		if (binRes.hasErrors()) {
+			return "userLogin";
 		} else {
-			return "redirect:/user/login";
+			List<Users> listUsers;
+			objUser.setEmail(objUser.getEmail());
+			objUser.setPassword(objUser.getPassword());
+			listUsers = uService.findByEmailAndPassword(objUser.getEmail(), objUser.getPassword());
+
+			if (!listUsers.isEmpty()) {
+				objUser = listUsers.get(0);
+				sessionUser = objUser;
+				return "redirect:/user/inicio";
+			} else {
+				return "redirect:/user/login";
+			}
 		}
 	}
 }

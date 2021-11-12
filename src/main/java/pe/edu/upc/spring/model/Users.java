@@ -10,8 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import net.bytebuddy.implementation.bind.annotation.Default;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "Users")
@@ -23,20 +22,23 @@ public class Users implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUsers;
 
+	@NotEmpty(message = "Ingrese su nombre")
 	@Column(name = "name", length = 150, nullable = false)
 	private String name;
 	
+	@NotEmpty(message = "Ingrese su apellido")
 	@Column(name = "lastName", length = 150, nullable = false)
 	private String lastName;
 	
+	@NotEmpty(message = "Ingrese su email")
 	@Column(name = "email", length = 60, nullable = false)
 	private String email;
 	
-
+	@NotEmpty(message = "Ingrese su constraseña")
 	@Column(name = "password", length = 20, nullable = false)
 	private String password;
 
-	
+	@NotEmpty(message = "Ingrese su nombre")
 	@Column(name = "phoneNumber", length = 60, nullable = false)
 	private String phoneNumber;
 	
@@ -49,6 +51,7 @@ public class Users implements Serializable {
 	@JoinColumn(name = "idType", nullable = false)
 	private Type type;
 	
+	@NotEmpty(message = "Ingrese su documentación")
 	@Column(name = "type_text", length = 20, nullable = false)
 	private String type_text;
 
