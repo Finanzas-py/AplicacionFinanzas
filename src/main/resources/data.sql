@@ -25,3 +25,20 @@ INSERT INTO reason_cf(name) VALUES ('Otros Gastos');
 
 INSERT INTO users(last_name,name,email,password,phone_number,id_company,id_type,type_text) 
 VALUES ('Calcín','Kevin','kevin@gmail.com','123','969217457',1,1,'71736923');
+
+INSERT INTO type_document(name) VALUES ('Factura');
+INSERT INTO type_document(name) VALUES ('Letra');
+INSERT INTO type_document(name) VALUES ('Recibo');
+
+INSERT INTO rate_type(rate_name) VALUES ('Efectivo');
+INSERT INTO rate_type(rate_name) VALUES ('Nominal');
+
+INSERT INTO term_rate(term_name,num_days) VALUES ('Diario',1);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Quincenal',15);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Mensual',30);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Bimestral',60);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Trimestral',90);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Cuatrimestral',120);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Semestral',180);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Anual',360);
+INSERT INTO term_rate(term_name,num_days) VALUES ('Especial',0);

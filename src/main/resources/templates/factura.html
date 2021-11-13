@@ -22,6 +22,8 @@
 
 	<div th:replace="fragments/header :: header_user"></div>
 
+
+
 	<form th:action="@{/document/registrarCostosIniciales}" method="post"
 		th:object="${cost}">
 		<div class="row">
@@ -70,7 +72,7 @@
 	</form>
 
 
-<form th:action="@{/document/registrarCostosFinales}" method="post"
+	<form th:action="@{/document/registrarCostosFinales}" method="post"
 		th:object="${cost}">
 
 		<h5>Costo finales</h5>
