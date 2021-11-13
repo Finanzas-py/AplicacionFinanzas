@@ -3,6 +3,7 @@ package pe.edu.upc.spring.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.Cost;
+import pe.edu.upc.spring.model.ReasonCi;
 import pe.edu.upc.spring.model.Users;
 import pe.edu.upc.spring.service.ICompanyService;
 import pe.edu.upc.spring.service.ICostService;
@@ -38,8 +40,8 @@ public class DocumentController {
 	@Autowired
 	private ICostService iCostService;
 
-	
 	private List<Cost> listCostCi = new ArrayList<Cost>();
+	private String idReasonCi;
 	
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
@@ -64,13 +66,13 @@ public class DocumentController {
 	@RequestMapping("/registrarCostosIniciales")
 	public String registrarCostoIniciales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
-			
+		 idReasonCi = String.valueOf(objCost.getReasonCi().getIdReasonCi());
+		 List<ReasonCi> prueba = iReasonCiService.SearchById(idReasonCi);
+		 objCost.setReasonCi(prueba.get(0));
 		listCostCi.add(objCost);
-		boolean a  = iCostService.save(objCost);
+		
 			for (int i =0; i<listCostCi.size(); i++) {
 				Cost n =listCostCi.get(i);
-				System.out.println(n.getReasonCi().getIdReasonCi()  + "   " +  n.getAmount());
-				
 			}
 		
 			

@@ -2,6 +2,7 @@ package pe.edu.upc.spring.repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,7 @@ import pe.edu.upc.spring.model.Users;
 @Repository
 public interface IReasonCiRepository extends JpaRepository<ReasonCi, Integer>{
 	
-	
+	@Query("from ReasonCi r where CAST(r.idReasonCi AS string) like %:idReasonCi%")
+	List<ReasonCi> SearchById(@Param("idReasonCi")String idReasonCi);
 	
 }

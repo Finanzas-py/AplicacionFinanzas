@@ -2,6 +2,7 @@ package pe.edu.upc.spring.serviceimpl;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,10 @@ public class ReasonCiServiceImpl implements IReasonCiService {
 		return dReasonCi.findAll();
 	}
 	
+	@Override
+	@Transactional(readOnly=true)
+	public List<ReasonCi> SearchById(String idReasonCi) {
+		return dReasonCi.SearchById(idReasonCi);
+	}
+
 }
