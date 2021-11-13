@@ -81,14 +81,13 @@ public class UserController {
 	@RequestMapping("/validarUsuario")
 	public String ingresarCuenta(@ModelAttribute("user") @Valid Users objUser, BindingResult binRes) throws ParseException {
 
-		if (binRes.hasErrors()) {
-			return "userLogin";
-		} else {
-			List<Users> listUsers;
-			objUser.setEmail(objUser.getEmail());
-			objUser.setPassword(objUser.getPassword());
-			listUsers = uService.findByEmailAndPassword(objUser.getEmail(), objUser.getPassword());
-
+		List<Users> listUsers;
+		objUser.setEmail(objUser.getEmail());
+		objUser.setPassword(objUser.getPassword());
+		listUsers = uService.findByEmailAndPassword(objUser.getEmail(), objUser.getPassword());
+		
+		
+		
 			if (!listUsers.isEmpty()) {
 				objUser = listUsers.get(0);
 				sessionUser = objUser;
@@ -97,5 +96,5 @@ public class UserController {
 				return "redirect:/user/login";
 			}
 		}
-	}
+	
 }

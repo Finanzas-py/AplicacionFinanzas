@@ -32,6 +32,8 @@ public class Cost implements Serializable {
 	@JoinColumn(name = "idReasonCf", nullable = true)
 	private ReasonCf reasonCf;
 
+	@Column(name = "state", length = 150, nullable = false)
+	private boolean state;	
 
 
 	public Cost() {
@@ -39,15 +41,14 @@ public class Cost implements Serializable {
 	}
 
 
-
-	public Cost(int idCost, int amount, ReasonCi reasonCi, ReasonCf reasonCf) {
+	public Cost(int idCost, int amount, ReasonCi reasonCi, ReasonCf reasonCf, boolean state) {
 		super();
 		this.idCost = idCost;
 		this.amount = amount;
 		this.reasonCi = reasonCi;
 		this.reasonCf = reasonCf;
+		this.state = state;
 	}
-
 
 
 	public int getIdCost() {
@@ -55,11 +56,9 @@ public class Cost implements Serializable {
 	}
 
 
-
 	public void setIdCost(int idCost) {
 		this.idCost = idCost;
 	}
-
 
 
 	public int getAmount() {
@@ -67,11 +66,9 @@ public class Cost implements Serializable {
 	}
 
 
-
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-
 
 
 	public ReasonCi getReasonCi() {
@@ -79,11 +76,9 @@ public class Cost implements Serializable {
 	}
 
 
-
 	public void setReasonCi(ReasonCi reasonCi) {
 		this.reasonCi = reasonCi;
 	}
-
 
 
 	public ReasonCf getReasonCf() {
@@ -91,9 +86,18 @@ public class Cost implements Serializable {
 	}
 
 
-
 	public void setReasonCf(ReasonCf reasonCf) {
 		this.reasonCf = reasonCf;
+	}
+
+
+	public boolean isState() {
+		return state;
+	}
+
+
+	public void setState(boolean state) {
+		this.state = state;
 	}
 
 

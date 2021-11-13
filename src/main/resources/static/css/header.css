@@ -1159,7 +1159,7 @@ h3 {
 
 /* line 170, ../../Arafath/CL/january 2020/240. Animal/HTML/scss/_header.scss */
 .header-area .main-header-area .main-menu ul .sin li:hover > a {
-  color: black !important;
+  color: #11992E !important;
 text-decoration: none;
 }
 
@@ -1238,3 +1238,5 @@ text-decoration: none;
   float: none;
   display: inline-block;
 }
+
+
