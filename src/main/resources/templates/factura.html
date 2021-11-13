@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<head>
+<meta charset="UTF-8"></meta>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css"
+	rel="stylesheet" />
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.version.2.css}" />
+<link rel="stylesheet" th:href="@{/css/header.css}" />
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+</head>
+
+<body>
+
+	<div th:replace="fragments/header :: header_user"></div>
+
+	<form th:action="@{/document/registrarCostosIniciales}" method="post"
+		th:object="${cost}">
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="email">Motivo</label>
+			</div>
+			<div class="form-group col-sm-6">
+				<select class="form-control itemselect"
+					th:field="*{ReasonCi.idReasonCi}">
+					<option th:each="r: ${listReasonCi}" th:value="${r.idReasonCi}"
+						th:text="${r.name}"
+						th:selected="(${r.idReasonCi}==*{ReasonCi.idReasonCi})"></option>
+				</select>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="pwd">Monto</label>
+			</div>
+			<div class="form-group col-sm-6">
+				<input type="text" class="form-control item" th:field="*{amount}" />
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-default">Agregar</button>
+
+		<table class="table table-striped table-hover">
+			<thead class="table-head">
+				<tr>
+					<th class="text-center">Motivo</th>
+					<th class="text-center">Monto</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="ci: ${listCostInitials}">
+					<td style="text-align: center" th:text="${ci.reasonCi.idReasonCi}"></td>
+					<td style="text-align: center" th:text="${ci.amount}"></td>
+
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+
+
+
+</body>
+</html>

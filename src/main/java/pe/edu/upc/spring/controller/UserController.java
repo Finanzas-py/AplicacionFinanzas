@@ -31,7 +31,8 @@ public class UserController {
 	@Autowired
 	private ICompanyService cService;
 
-	public Users sessionUser;
+	
+	public  Users sessionUser;
 
 	@RequestMapping("/inicio")
 	public String PaginaBienvenida(Model model) {
@@ -71,6 +72,7 @@ public class UserController {
 			boolean flag = uService.save(objUser);
 			if (flag) {
 				sessionUser = objUser;
+		
 				return "redirect:/user/inicio";
 			} else {
 				return "redirect:/user/irRegistrar";
@@ -91,6 +93,8 @@ public class UserController {
 			if (!listUsers.isEmpty()) {
 				objUser = listUsers.get(0);
 				sessionUser = objUser;
+			
+
 				return "redirect:/user/inicio";
 			} else {
 				return "redirect:/user/login";
