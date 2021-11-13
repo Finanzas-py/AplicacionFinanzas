@@ -22,6 +22,7 @@ import pe.edu.upc.spring.model.ReasonCi;
 import pe.edu.upc.spring.model.Users;
 import pe.edu.upc.spring.service.ICompanyService;
 import pe.edu.upc.spring.service.ICostService;
+import pe.edu.upc.spring.service.IReasonCfService;
 import pe.edu.upc.spring.service.IReasonCiService;
 import pe.edu.upc.spring.service.ITypeService;
 import pe.edu.upc.spring.service.IUserService;
@@ -36,7 +37,9 @@ public class DocumentController {
 	@Autowired
 	private IReasonCiService iReasonCiService;
 
-	
+	@Autowired
+	private IReasonCfService iReasonCfService;
+
 	@Autowired
 	private ICostService iCostService;
 
@@ -47,7 +50,7 @@ public class DocumentController {
 	public String irPaginaRegistrar(Model model) {
 		model.addAttribute("user", userController.sessionUser);
 		model.addAttribute("listReasonCi",iReasonCiService.listReasonCi());
-		
+		model.addAttribute("listReasonCf",iReasonCfService.listReasonCf());
 		model.addAttribute("cost",new Cost());
 
 		return "factura";
@@ -71,10 +74,7 @@ public class DocumentController {
 		 objCost.setReasonCi(prueba.get(0));
 		listCostCi.add(objCost);
 		
-			for (int i =0; i<listCostCi.size(); i++) {
-				Cost n =listCostCi.get(i);
-			}
-		
+			
 			
 			return "redirect:/document/iractualizarFactura";
 		

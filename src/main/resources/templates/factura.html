@@ -70,6 +70,55 @@
 	</form>
 
 
+<form th:action="@{/document/registrarCostosFinales}" method="post"
+		th:object="${cost}">
+
+		<h5>Costo finales</h5>
+
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="email">Motivo</label>
+			</div>
+			<div class="form-group col-sm-6">
+				<select class="form-control itemselect"
+					th:field="*{ReasonCf.idReasonCf}">
+					<option th:each="r: ${listReasonCf}" th:value="${r.idReasonCf}"
+						th:text="${r.name}"
+						th:selected="(${r.idReasonCf}==*{ReasonCf.idReasonCf})"></option>
+				</select>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="pwd">Monto</label>
+			</div>
+			<div class="form-group col-sm-6">
+				<input type="text" class="form-control item" th:field="*{amount}" />
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-default">Agregar</button>
+
+		<table class="table table-striped table-hover">
+			<thead class="table-head">
+				<tr>
+					<th class="text-center">Motivo</th>
+					<th class="text-center">Monto</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="cf: ${listCostInitials}">
+					<td style="text-align: center" th:text="${cf.reasonCf.name}"></td>
+					<td style="text-align: center" th:text="${cf.amount}"></td>
+
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
 
 </body>
 </html>
