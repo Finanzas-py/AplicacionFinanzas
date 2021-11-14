@@ -30,8 +30,8 @@ public class Rate implements Serializable {
 	private String name;
 
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "discountDate")
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date discountDate;
 	
 	@Column(name = "days", length = 150, nullable = false)

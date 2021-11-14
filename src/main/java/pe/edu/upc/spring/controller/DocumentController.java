@@ -1,6 +1,7 @@
 package pe.edu.upc.spring.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -107,9 +108,7 @@ public class DocumentController {
 	public String  prueba(@ModelAttribute Rate objRate, BindingResult binRes, Model model)
 			throws ParseException {
 		
-		int f = objRate.getTermRate().getNum_days();
-		
-		System.out.println(objRate.getDays() +"           "+ f);
+		System.out.println(objRate.getDiscountDate().toString());
 		return "redirect:/document/iractualizarFactura";
 
 	}

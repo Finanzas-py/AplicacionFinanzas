@@ -22,8 +22,7 @@
 
 	<div th:replace="fragments/header :: header_user"></div>
 
-	<form th:action="@{/document/prueba}" method="post"
-	th:object="${rate}">
+	<form th:action="@{/document/prueba}" method="post" th:object="${rate}">
 
 		<h5>Tasa y Plazo</h5>
 
@@ -36,28 +35,50 @@
 					<option th:value="360">360 dias</option>
 					<option th:value="365">365 dias</option>
 				</select>
-				
-			
+
+
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label>(P)Plazo de taza</label>
 			</div>
 			<div class="form-group col-sm-6">
-				<select class="form-control itemselect"
-					th:field="*{TermRate}">
+				<select class="form-control itemselect" th:field="*{TermRate}">
 					<option th:each="tr: ${listTermRate}" th:value="${tr.idTermRate}"
-						th:text="${tr.termName}"
-						th:selected="(${tr}==*{TermRate})"></option>
+						th:text="${tr.termName}" th:selected="(${tr}==*{TermRate})"></option>
 				</select>
-			
+
+			</div>
+
+		</div>
+
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label>(TE) Tasa Efectiva</label>
+			</div>
+			<div class="form-group col-sm-6">
+
+				<input type="text" class="form-control item" th:field="*{rate}" />
+
+
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label>(FD) Fecha de Descuento</label>
+			</div>
+			<div class="form-group col-sm-6">
+
+				<input type="date" class="form-control itemselect"
+					th:field="*{discountDate}"
+					th:errorclass="'form-control alert-danger'" />
 
 
+			</div>
+		</div>
 
 		<button type="submit" class="btn btn-default">Agregar</button>
 
@@ -76,11 +97,9 @@
 				<label for="email">Motivo</label>
 			</div>
 			<div class="form-group col-sm-6">
-				<select class="form-control itemselect"
-					th:field="*{ReasonCi}">
+				<select class="form-control itemselect" th:field="*{ReasonCi}">
 					<option th:each="r: ${listReasonCi}" th:value="${r.idReasonCi}"
-						th:text="${r.name}"
-						th:selected="(${r}==*{ReasonCi})"></option>
+						th:text="${r.name}" th:selected="(${r}==*{ReasonCi})"></option>
 				</select>
 			</div>
 		</div>
@@ -129,13 +148,13 @@
 				<label for="email">Motivo</label>
 			</div>
 			<div class="form-group col-sm-6">
-				<select class="form-control itemselect"
-					th:field="*{ReasonCf}">
+				<select class="form-control itemselect" th:field="*{ReasonCf}">
 					<option th:each="r: ${listReasonCf}" th:value="${r.idReasonCf}"
-						th:text="${r.name}"
-						th:selected="(${r}==*{ReasonCf})"></option>
+						th:text="${r.name}" th:selected="(${r}==*{ReasonCf})"></option>
 				</select>
+
 			</div>
+
 		</div>
 
 
