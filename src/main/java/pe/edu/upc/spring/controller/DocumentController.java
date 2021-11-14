@@ -91,6 +91,7 @@ public class DocumentController {
 		model.addAttribute("listTermRate", iTermRateService.listTermRate());
 		model.addAttribute("cost", new Cost());
 		model.addAttribute("rate", rate);
+		model.addAttribute("resultados", resultados);
 		model.addAttribute("document", document);
 		
 		return "factura";
@@ -130,10 +131,11 @@ public class DocumentController {
 	public String mostrar(@ModelAttribute Document objDocument,@ModelAttribute Rate objRate
 			, BindingResult binRes, Model model) throws ParseException {
 
+		resultados=1;
 
 		objDocument.setTCEA(objRate.getRate());
 		objDocument.setDays(calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate()));
-		//objDocument.setRate(objRate);
+		objDocument.setRateDoc(objRate);
 		double tasa = objRate.getRate()/(double)100;
 		int dias = objDocument.getDays();
 		double valor_nominal;
@@ -191,7 +193,8 @@ public class DocumentController {
 		document = objDocument;
 		rate = objRate;
 	
-		
+		model.addAttribute("document", document);
+		model.addAttribute("resultados", resultados);
 		return "redirect:/document/iractualizarFactura";
 
 	}

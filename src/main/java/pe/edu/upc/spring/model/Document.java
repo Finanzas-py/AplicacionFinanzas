@@ -99,7 +99,11 @@ public class Document implements Serializable {
 	@JoinColumn(name = "idPurse", nullable = false)
 	private Purse Purse;
 	
+	@ManyToOne
+	@JoinColumn(name = "idRate", nullable = false)
+	private Rate RateDoc;
 	
+
 	public Document() {
 		super();
 	}
@@ -109,7 +113,7 @@ public class Document implements Serializable {
 			double netValue, int days, double totalInitialCost, double totalFinalCost, double recivedValue,
 			double discountedRate, float daysDiscount, double tCEA, double teD, double valueTotal, Users user,
 			Company companyTransmitter, Company companyReceiver, pe.edu.upc.spring.model.TypeDocument typeDocument,
-			pe.edu.upc.spring.model.Currency currency, pe.edu.upc.spring.model.Purse purse) {
+			pe.edu.upc.spring.model.Currency currency, pe.edu.upc.spring.model.Purse purse, Rate rateDoc) {
 		super();
 		this.idDocument = idDocument;
 		this.name = name;
@@ -133,6 +137,7 @@ public class Document implements Serializable {
 		TypeDocument = typeDocument;
 		Currency = currency;
 		Purse = purse;
+		RateDoc = rateDoc;
 	}
 
 
@@ -354,4 +359,16 @@ public class Document implements Serializable {
 	public void setPurse(Purse purse) {
 		Purse = purse;
 	}
+
+
+	public Rate getRateDoc() {
+		return RateDoc;
+	}
+
+
+	public void setRateDoc(Rate rateDoc) {
+		RateDoc = rateDoc;
+	}
+	
+	
 }

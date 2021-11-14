@@ -254,10 +254,26 @@
 	</div>
 
 
-	<div th:if="${resultados ==0}"></div>
+	<div th:if="${resultados ==0}">
+		<div class="form-group col-sm-6">
+			<label for="pwd">(TEA) Tasa Efectiva Anual (sin costes)</label>
+		</div>
+	</div>
 
 	<div th:if="${resultados ==1}">
-	
+		<form th:object="${document}">
+			<div class="row">
+				<div class="form-group col-sm-6">
+					<label for="pwd">(TEA) Tasa Efectiva Anual (sin costes)</label>
+				</div>
+				<div class="form-group col-sm-6">
+					<input type="text" class="form-control item" th:field="*{RateDoc.rate}" />
+				</div>
+			</div>
+
+			
+		</form>
+
 	</div>
 
 </body>
