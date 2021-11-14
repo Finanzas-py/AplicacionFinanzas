@@ -18,7 +18,7 @@
 
 </head>
 
-<body>
+<body onload="comprobar();">
 
 	<div th:replace="fragments/header :: header_user"></div>
 
@@ -86,6 +86,20 @@
 
 				<h5>Tasa y Plazo</h5>
 
+
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label>Tipo de tasa </label>
+					</div>
+					<div class="form-group col-sm-6">
+						<select class="form-control itemselect" th:field="*{RateType}"   onchange="comprobar();" id="rango">
+							<option th:each="rt: ${listRateType}" th:value="${rt.idRateType}"
+								th:text="${rt.rateName}" th:selected="(${rt}==*{RateType})"></option>
+						</select>
+					</div>
+				</div>
+
+<div  id="titulacion">
 				<div class="row">
 					<div class="form-group col-sm-6">
 						<label>(DA)Dias por año</label>
@@ -141,6 +155,8 @@
 				</div>
 			</div>
 		</div>
+</div>
+
 
 
 		<button type="submit" class="btn btn-default"
@@ -255,10 +271,9 @@
 
 
 	<div th:if="${resultados ==0}">
-		<div class="form-group col-sm-6">
-			<label for="pwd">(TEA) Tasa Efectiva Anual (sin costes)</label>
-		</div>
-	</div>
+	
+
+</div>
 
 	<div th:if="${resultados ==1}">
 		<form th:object="${document}">
@@ -391,5 +406,19 @@
 
 	</div>
 
+<script type="text/javascript">
+  function comprobar(){
+    var titulacion = document.getElementById('titulacion');
+    var rango = document.getElementById('rango');
+    if(rango.value ==2)
+    {
+      titulacion.style.display = 'block';
+    }
+    else
+    {
+      titulacion.style.display = 'none';
+    }
+  }
+</script>
 </body>
 </html>

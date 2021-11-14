@@ -25,12 +25,14 @@ import com.sun.el.parser.ParseException;
 import pe.edu.upc.spring.model.Cost;
 import pe.edu.upc.spring.model.Document;
 import pe.edu.upc.spring.model.Rate;
+import pe.edu.upc.spring.model.RateType;
 import pe.edu.upc.spring.model.ReasonCf;
 import pe.edu.upc.spring.model.ReasonCi;
 import pe.edu.upc.spring.model.TypeDocument;
 import pe.edu.upc.spring.model.Users;
 import pe.edu.upc.spring.service.ICompanyService;
 import pe.edu.upc.spring.service.ICostService;
+import pe.edu.upc.spring.service.IRateTypeService;
 import pe.edu.upc.spring.service.IReasonCfService;
 import pe.edu.upc.spring.service.IReasonCiService;
 import pe.edu.upc.spring.service.ITermRateService;
@@ -53,8 +55,12 @@ public class DocumentController {
 	@Autowired
 	private ITermRateService iTermRateService;
 
+	@Autowired
+	private IRateTypeService iRateTypeService;
+	
 	private List<Cost> listCostCi;
 	private List<Cost> listCostCf;
+	private List<RateType> listRateType;
 	private Rate rate;
 	private Document document;
 	private int resultados;
@@ -69,10 +75,13 @@ public class DocumentController {
 		listCostCi = new ArrayList<Cost>();
 		listCostCf = null;
 		listCostCf = new ArrayList<Cost>();
+		listRateType =null;
+		listRateType = new ArrayList<RateType>();
 		model.addAttribute("user", userController.sessionUser);
 		model.addAttribute("listReasonCi", iReasonCiService.listReasonCi());
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
 		model.addAttribute("listTermRate", iTermRateService.listTermRate());
+		model.addAttribute("listRateType", iRateTypeService.listRateType());
 		model.addAttribute("rate", rate);
 		model.addAttribute("document", document);
 		model.addAttribute("resultados", resultados);
@@ -89,6 +98,7 @@ public class DocumentController {
 		model.addAttribute("listCostInitials", listCostCi);
 		model.addAttribute("listCostFinals", listCostCf);
 		model.addAttribute("listTermRate", iTermRateService.listTermRate());
+		model.addAttribute("listRateType", iRateTypeService.listRateType());
 		model.addAttribute("cost", new Cost());
 		model.addAttribute("rate", rate);
 		model.addAttribute("resultados", resultados);
@@ -132,7 +142,6 @@ public class DocumentController {
 			, BindingResult binRes, Model model) throws ParseException {
 
 		resultados=1;
-
 		objDocument.setTCEA(objRate.getRate());
 		objDocument.setDays(calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate()));
 		objDocument.setRateDoc(objRate);
