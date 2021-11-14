@@ -121,6 +121,18 @@ public class DocumentController {
 
 	}
 	
+	@RequestMapping("/mostrar")
+	public String mostrar(@ModelAttribute Document objDocument,@ModelAttribute Rate objRate
+			, BindingResult binRes, Model model) throws ParseException {
+
+		document = objDocument;
+		int Dias = calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate());
+		Date fecha = objRate.getDiscountDate();
+		System.out.println(Dias+"           "+fecha.toString());
+		return "redirect:/document/iractualizarFactura";
+
+	}
+	
 	public int calcularEdad(Date dateOfIssue, Date paymentDate) {
 		Calendar fecha1 = Calendar.getInstance();
 		Calendar fecha2 = Calendar.getInstance();
