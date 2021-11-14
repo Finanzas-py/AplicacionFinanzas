@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.Cost;
+import pe.edu.upc.spring.model.Rate;
 import pe.edu.upc.spring.model.ReasonCf;
 import pe.edu.upc.spring.model.ReasonCi;
 import pe.edu.upc.spring.model.Users;
@@ -25,6 +26,7 @@ import pe.edu.upc.spring.service.ICompanyService;
 import pe.edu.upc.spring.service.ICostService;
 import pe.edu.upc.spring.service.IReasonCfService;
 import pe.edu.upc.spring.service.IReasonCiService;
+import pe.edu.upc.spring.service.ITermRateService;
 import pe.edu.upc.spring.service.ITypeService;
 import pe.edu.upc.spring.service.IUserService;
 
@@ -41,6 +43,9 @@ public class DocumentController {
 	@Autowired
 	private IReasonCfService iReasonCfService;
 
+	@Autowired
+	private ITermRateService iTermRateService;
+
 
 	private List<Cost> listCostCi;
 	private List<Cost> listCostCf;
@@ -52,6 +57,9 @@ public class DocumentController {
 		model.addAttribute("user", userController.sessionUser);
 		model.addAttribute("listReasonCi", iReasonCiService.listReasonCi());
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
+		model.addAttribute("listTermRate",iTermRateService.listTermRate());
+		model.addAttribute("rate",new Rate());
+		
 		 listCostCi = null;
 		 listCostCi= new ArrayList<Cost>();
 		 listCostCf = null;
@@ -68,8 +76,9 @@ public class DocumentController {
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
 		model.addAttribute("listCostInitials", listCostCi);
 		model.addAttribute("listCostFinals", listCostCf);
-
+		model.addAttribute("listTermRate",iTermRateService.listTermRate());
 		model.addAttribute("cost", new Cost());
+		model.addAttribute("rate", new Rate());
 
 		return "factura";
 	}
@@ -77,9 +86,7 @@ public class DocumentController {
 	@RequestMapping("/registrarCostosIniciales")
 	public String registrarCostoIniciales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
-		idReasonCi = String.valueOf(objCost.getReasonCi().getIdReasonCi());
-		List<ReasonCi> prueba = iReasonCiService.SearchById(idReasonCi);
-		objCost.setReasonCi(prueba.get(0));
+		
 		listCostCi.add(objCost);
 
 		return "redirect:/document/iractualizarFactura";
@@ -89,13 +96,21 @@ public class DocumentController {
 	@RequestMapping("/registrarCostosFinales")
 	public String registrarCostoFinales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
-		idReasonCf = String.valueOf(objCost.getReasonCf().getIdReasonCf());
-		List<ReasonCf> prueba = iReasonCfService.SearchById(idReasonCf);
-		objCost.setReasonCf(prueba.get(0));
+	
 		listCostCf.add(objCost);
 
 		return "redirect:/document/iractualizarFactura";
 
 	}
 
+	@RequestMapping("/prueba")
+	public String  prueba(@ModelAttribute Rate objRate, BindingResult binRes, Model model)
+			throws ParseException {
+		
+		int f = objRate.getTermRate().getNum_days();
+		
+		System.out.println(objRate.getDays() +"           "+ f);
+		return "redirect:/document/iractualizarFactura";
+
+	}
 }

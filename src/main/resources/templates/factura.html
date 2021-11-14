@@ -22,20 +22,65 @@
 
 	<div th:replace="fragments/header :: header_user"></div>
 
+	<form th:action="@{/document/prueba}" method="post"
+	th:object="${rate}">
+
+		<h5>Tasa y Plazo</h5>
+
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label>(DA)Dias por año</label>
+			</div>
+			<div class="form-group col-sm-6">
+				<select th:field="*{days}">
+					<option th:value="360">360 dias</option>
+					<option th:value="365">365 dias</option>
+				</select>
+				
+			
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label>(P)Plazo de taza</label>
+			</div>
+			<div class="form-group col-sm-6">
+				<select class="form-control itemselect"
+					th:field="*{TermRate}">
+					<option th:each="tr: ${listTermRate}" th:value="${tr.idTermRate}"
+						th:text="${tr.termName}"
+						th:selected="(${tr}==*{TermRate})"></option>
+				</select>
+			
+			</div>
+		</div>
+
+
+
+
+		<button type="submit" class="btn btn-default">Agregar</button>
+
+
+
+	</form>
 
 
 	<form th:action="@{/document/registrarCostosIniciales}" method="post"
 		th:object="${cost}">
+
+		<h5>Costo Iniciales</h5>
+
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="email">Motivo</label>
 			</div>
 			<div class="form-group col-sm-6">
 				<select class="form-control itemselect"
-					th:field="*{ReasonCi.idReasonCi}">
+					th:field="*{ReasonCi}">
 					<option th:each="r: ${listReasonCi}" th:value="${r.idReasonCi}"
 						th:text="${r.name}"
-						th:selected="(${r.idReasonCi}==*{ReasonCi.idReasonCi})"></option>
+						th:selected="(${r}==*{ReasonCi})"></option>
 				</select>
 			</div>
 		</div>
@@ -77,16 +122,18 @@
 
 		<h5>Costo finales</h5>
 
+
+
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="email">Motivo</label>
 			</div>
 			<div class="form-group col-sm-6">
 				<select class="form-control itemselect"
-					th:field="*{ReasonCf.idReasonCf}">
+					th:field="*{ReasonCf}">
 					<option th:each="r: ${listReasonCf}" th:value="${r.idReasonCf}"
 						th:text="${r.name}"
-						th:selected="(${r.idReasonCf}==*{ReasonCf.idReasonCf})"></option>
+						th:selected="(${r}==*{ReasonCf})"></option>
 				</select>
 			</div>
 		</div>
