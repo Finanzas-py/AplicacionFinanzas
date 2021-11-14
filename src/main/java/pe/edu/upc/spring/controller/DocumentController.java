@@ -186,7 +186,7 @@ public class DocumentController {
 		objDocument.setValueTotal(valor_total);
 		TCEA = Math.pow(valor_total/valor_recibido,objRate.getDays()/(double)dias)-1;
 		objDocument.setTCEA(TCEA);
-		TCEA = TCEA*100;
+		//TCEA = TCEA*100;
 		
 		
 		DecimalFormat formato1 = new DecimalFormat("####.000000000");
@@ -194,6 +194,10 @@ public class DocumentController {
 		document = objDocument;
 		rate = objRate;
 	
+		//Operaciones que se mostraran en patanlla
+		document.setTeD(ted*(double)100);
+		document.setDiscountedRate(d*(double)100);
+		document.setTCEA(TCEA*(double)100);
 		model.addAttribute("document", document);
 		model.addAttribute("resultados", resultados);
 		return "redirect:/document/iractualizarFactura";
