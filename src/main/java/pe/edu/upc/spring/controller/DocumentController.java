@@ -64,9 +64,11 @@ public class DocumentController {
 	private Rate rate;
 	private Document document;
 	private int resultados;
+	private int tasa_factura;
 	
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
+		tasa_factura =1;
 		resultados =0;
 		rate = null;
 		rate = new Rate();
@@ -82,6 +84,8 @@ public class DocumentController {
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
 		model.addAttribute("listTermRate", iTermRateService.listTermRate());
 		model.addAttribute("listRateType", iRateTypeService.listRateType());
+		model.addAttribute("listTermRateCapital", iTermRateService.listTermRate());
+		model.addAttribute("tasa_factura",tasa_factura);
 		model.addAttribute("rate", rate);
 		model.addAttribute("document", document);
 		model.addAttribute("resultados", resultados);
@@ -92,13 +96,16 @@ public class DocumentController {
 
 	@RequestMapping("/iractualizarFactura")
 	public String iractualizarFactura(Model model) {
+		
 		model.addAttribute("user", userController.sessionUser);
 		model.addAttribute("listReasonCi", iReasonCiService.listReasonCi());
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
 		model.addAttribute("listCostInitials", listCostCi);
 		model.addAttribute("listCostFinals", listCostCf);
 		model.addAttribute("listTermRate", iTermRateService.listTermRate());
+		model.addAttribute("listTermRateCapital", iTermRateService.listTermRate());
 		model.addAttribute("listRateType", iRateTypeService.listRateType());
+		model.addAttribute("tasa_factura", tasa_factura);
 		model.addAttribute("cost", new Cost());
 		model.addAttribute("rate", rate);
 		model.addAttribute("resultados", resultados);
@@ -107,6 +114,14 @@ public class DocumentController {
 		return "factura";
 	}
 
+	@RequestMapping("/a")
+	public String a(Model model) {
+		if(tasa_factura==1) tasa_factura =2;
+		else tasa_factura =1;
+		
+		return "redirect:/document/iractualizarFactura";
+	}
+	
 	@RequestMapping("/registrarCostosIniciales")
 	public String registrarCostoIniciales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
@@ -127,6 +142,7 @@ public class DocumentController {
 
 	}
 
+	/*
 	@RequestMapping("/prueba")
 	public String prueba(@ModelAttribute Document objDocument, BindingResult binRes, Model model) throws ParseException {
 
@@ -135,7 +151,7 @@ public class DocumentController {
 		System.out.println(Dias);
 		return "redirect:/document/iractualizarFactura";
 
-	}
+	}*/
 	
 	@RequestMapping("/CrearFactura")
 	public String mostrar(@ModelAttribute Document objDocument,@ModelAttribute Rate objRate
@@ -145,7 +161,8 @@ public class DocumentController {
 		objDocument.setTCEA(objRate.getRate());
 		objDocument.setDays(calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate()));
 		objDocument.setRateDoc(objRate);
-		double tasa = objRate.getRate()/(double)100;
+		int tasa_cap;
+		double tasa ;   //TASA
 		int dias = objDocument.getDays();
 		double valor_nominal;
 		double dias_tasa;
@@ -160,13 +177,12 @@ public class DocumentController {
 		double valor_total;
 		double TCEA;
 		
-		//calculo para tasa efectiva
+		if(tasa_factura ==1) { //calculo para tasa efectiva
+		tasa= objRate.getRate()/(double)100;
 		valor_nominal = objDocument.getNominalValue();
 		dias_tasa = objRate.getTermRate().getNum_days();
-		ted=Math.pow(1+tasa,dias/dias_tasa)-1;
-	//	ted= ted*(double)100;  //TE
+		ted=Math.pow(1+tasa,dias/dias_tasa)-1; 
 		objDocument.setTeD(ted);
-		//ted = ted/(double)100;
 		d = ted/(1+ted);
 		objDocument.setDiscountedRate(d); //d
 		D = (float)(valor_nominal*d);
@@ -195,20 +211,68 @@ public class DocumentController {
 		objDocument.setValueTotal(valor_total);
 		TCEA = Math.pow(valor_total/valor_recibido,objRate.getDays()/(double)dias)-1;
 		objDocument.setTCEA(TCEA);
-		//TCEA = TCEA*100;
-		
+	
 		
 		DecimalFormat formato1 = new DecimalFormat("####.000000000");
 		System.out.println(formato1.format(TCEA));
 		document = objDocument;
 		rate = objRate;
-	
+		
 		//Operaciones que se mostraran en patanlla
 		document.setTeD(ted*(double)100);
 		document.setDiscountedRate(d*(double)100);
 		document.setTCEA(TCEA*(double)100);
-		model.addAttribute("document", document);
-		model.addAttribute("resultados", resultados);
+		}
+		else { 
+			tasa_cap =  objRate.getTermRateCapital().getNum_days();
+			valor_nominal = objDocument.getNominalValue();
+			dias_tasa = objRate.getTermRate().getNum_days();
+			tasa = objRate.getRateNominal()/(double)100;
+			tasa = Math.pow(1+(tasa/dias_tasa),objRate.getDays())-1; 
+			objRate.setRate(tasa * 100);
+			ted=Math.pow(1+tasa,dias/dias_tasa)-1; 
+			objDocument.setTeD(ted);
+			d = ted/(1+ted);
+			objDocument.setDiscountedRate(d); //d
+			D = (float)(valor_nominal*d);
+			objDocument.setDaysDiscount(D);  //D
+			retencion = objDocument.getRetention();
+			
+			
+			
+			for(int i = 0; i < listCostCi.size(); i++) {
+				CI = CI + listCostCi.get(i).getAmount();
+			}
+			
+			
+			for(int i = 0; i < listCostCf.size(); i++) {
+				CF = CF + listCostCf.get(i).getAmount();
+			}
+			
+			objDocument.setTotalInitialCost(CI);
+			objDocument.setTotalFinalCost(CF);
+			
+			valor_neto = valor_nominal-D;
+			objDocument.setNetValue(valor_neto);
+			valor_recibido = valor_neto-retencion-CI;
+			objDocument.setRecivedValue(valor_recibido);
+			valor_total=valor_nominal-retencion+CF;
+			objDocument.setValueTotal(valor_total);
+			TCEA = Math.pow(valor_total/valor_recibido,objRate.getDays()/(double)dias)-1;
+			objDocument.setTCEA(TCEA);
+		
+			
+			DecimalFormat formato1 = new DecimalFormat("####.000000000");
+			System.out.println(formato1.format(TCEA));
+			document = objDocument;
+			rate = objRate;
+			
+			//Operaciones que se mostraran en patanlla
+			document.setTeD(ted*(double)100);
+			document.setDiscountedRate(d*(double)100);
+			document.setTCEA(TCEA*(double)100);
+		}
+
 		return "redirect:/document/iractualizarFactura";
 
 	}

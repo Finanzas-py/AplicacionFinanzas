@@ -38,7 +38,7 @@ public class Rate implements Serializable {
 	private int days;
 
 	@Column(name = "rate", length = 150, nullable = false)
-	private int rate;
+	private double rate;
 
 	@ManyToOne
 	@JoinColumn(name = "idCTermRate", nullable = true)
@@ -52,14 +52,17 @@ public class Rate implements Serializable {
 	@JoinColumn(name = "idRateType", nullable = true)
 	private RateType RateType;
 	
+	@Column(name = "rateNominal", length = 150, nullable = false)
+	private double  rateNominal;
+	
 	
 	public Rate() {
 		super();
 	}
 
 
-	public Rate(int idRate, String name, Date discountDate, int days, int rate, TermRate termRate,
-			TermRate termRateCapital, pe.edu.upc.spring.model.RateType rateType) {
+	public Rate(int idRate, String name, Date discountDate, int days, double rate, TermRate termRate,
+			TermRate termRateCapital, pe.edu.upc.spring.model.RateType rateType, double rateNominal) {
 		super();
 		this.idRate = idRate;
 		this.name = name;
@@ -69,6 +72,7 @@ public class Rate implements Serializable {
 		this.termRate = termRate;
 		this.termRateCapital = termRateCapital;
 		RateType = rateType;
+		this.rateNominal = rateNominal;
 	}
 
 
@@ -112,12 +116,12 @@ public class Rate implements Serializable {
 	}
 
 
-	public int getRate() {
+	public double getRate() {
 		return rate;
 	}
 
 
-	public void setRate(int rate) {
+	public void setRate(double rate) {
 		this.rate = rate;
 	}
 
@@ -152,5 +156,14 @@ public class Rate implements Serializable {
 	}
 
 
+	public double getRateNominal() {
+		return rateNominal;
+	}
 
+
+	public void setRateNominal(double rateNominal) {
+		this.rateNominal = rateNominal;
+	}
+
+	
 }

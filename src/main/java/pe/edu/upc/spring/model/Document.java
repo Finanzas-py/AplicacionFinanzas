@@ -75,6 +75,7 @@ public class Document implements Serializable {
 	@Column(name = "valueTotal", length = 150, nullable = false)
 	private double  valueTotal;
 	
+
 	@ManyToOne
 	@JoinColumn(name = "idUsers", nullable = false)
 	private Users User;
@@ -369,6 +370,5 @@ public class Document implements Serializable {
 	public void setRateDoc(Rate rateDoc) {
 		RateDoc = rateDoc;
 	}
-	
-	
+
 }
