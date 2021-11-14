@@ -72,6 +72,9 @@ public class Document implements Serializable {
 	@Column(name = "teD", length = 150, nullable = false)
 	private double  teD;
 	
+	@Column(name = "valueTotal", length = 150, nullable = false)
+	private double  valueTotal;
+	
 	@ManyToOne
 	@JoinColumn(name = "idUsers", nullable = false)
 	private Users User;
@@ -104,8 +107,8 @@ public class Document implements Serializable {
 
 	public Document(int idDocument, String name, Date dateOfIssue, Date paymentDate, int nominalValue, int retention,
 			double netValue, int days, double totalInitialCost, double totalFinalCost, double recivedValue,
-			double discountedRate, float daysDiscount, double tCEA, double teD, Users user, Company companyTransmitter,
-			Company companyReceiver, pe.edu.upc.spring.model.TypeDocument typeDocument,
+			double discountedRate, float daysDiscount, double tCEA, double teD, double valueTotal, Users user,
+			Company companyTransmitter, Company companyReceiver, pe.edu.upc.spring.model.TypeDocument typeDocument,
 			pe.edu.upc.spring.model.Currency currency, pe.edu.upc.spring.model.Purse purse) {
 		super();
 		this.idDocument = idDocument;
@@ -123,6 +126,7 @@ public class Document implements Serializable {
 		this.daysDiscount = daysDiscount;
 		TCEA = tCEA;
 		this.teD = teD;
+		this.valueTotal = valueTotal;
 		User = user;
 		CompanyTransmitter = companyTransmitter;
 		CompanyReceiver = companyReceiver;
@@ -282,6 +286,16 @@ public class Document implements Serializable {
 	}
 
 
+	public double getValueTotal() {
+		return valueTotal;
+	}
+
+
+	public void setValueTotal(double valueTotal) {
+		this.valueTotal = valueTotal;
+	}
+
+
 	public Users getUser() {
 		return User;
 	}
@@ -340,9 +354,4 @@ public class Document implements Serializable {
 	public void setPurse(Purse purse) {
 		Purse = purse;
 	}
-
-
-
-
-
 }

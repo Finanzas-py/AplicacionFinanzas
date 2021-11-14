@@ -254,17 +254,10 @@
 	</div>
 
 
-	<div th:if="${resultados ==0}">
-		<form method=post th:action="@{/document/CrearFactura}"
-			th:object="${bro}">
-			<input type="date" class="form-control item"
-				th:field="*{dateOfIssue}" />
-
-		</form>
-	</div>
+	<div th:if="${resultados ==0}"></div>
 
 	<div th:if="${resultados ==1}">
-		<h5>AAAAAAA</h5>
+	
 	</div>
 
 </body>

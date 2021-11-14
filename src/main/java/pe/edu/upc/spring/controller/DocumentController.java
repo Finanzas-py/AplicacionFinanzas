@@ -27,6 +27,7 @@ import pe.edu.upc.spring.model.Document;
 import pe.edu.upc.spring.model.Rate;
 import pe.edu.upc.spring.model.ReasonCf;
 import pe.edu.upc.spring.model.ReasonCi;
+import pe.edu.upc.spring.model.TypeDocument;
 import pe.edu.upc.spring.model.Users;
 import pe.edu.upc.spring.service.ICompanyService;
 import pe.edu.upc.spring.service.ICostService;
@@ -60,7 +61,7 @@ public class DocumentController {
 	
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
-		resultados =1;
+		resultados =0;
 		rate = null;
 		rate = new Rate();
 		document = new Document();
@@ -129,9 +130,10 @@ public class DocumentController {
 	public String mostrar(@ModelAttribute Document objDocument,@ModelAttribute Rate objRate
 			, BindingResult binRes, Model model) throws ParseException {
 
-		
+
 		objDocument.setTCEA(objRate.getRate());
 		objDocument.setDays(calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate()));
+		//objDocument.setRate(objRate);
 		double tasa = objRate.getRate()/(double)100;
 		int dias = objDocument.getDays();
 		double valor_nominal;
@@ -140,6 +142,13 @@ public class DocumentController {
 		double ted;
 		float D;
 		int retencion;
+		double CI =0;
+		double CF =0;
+		double valor_neto;
+		double valor_recibido;
+		double valor_total;
+		double TCEA;
+		
 		//calculo para tasa efectiva
 		valor_nominal = objDocument.getNominalValue();
 		dias_tasa = objRate.getTermRate().getNum_days();
@@ -154,26 +163,35 @@ public class DocumentController {
 		retencion = objDocument.getRetention();
 		
 		
-		double CI =0;
+		
 		for(int i = 0; i < listCostCi.size(); i++) {
 			CI = CI + listCostCi.get(i).getAmount();
 		}
 		
-		double CF =0;
+		
 		for(int i = 0; i < listCostCf.size(); i++) {
 			CF = CF + listCostCf.get(i).getAmount();
 		}
 		
+		objDocument.setTotalInitialCost(CI);
+		objDocument.setTotalFinalCost(CF);
+		
+		valor_neto = valor_nominal-D;
+		objDocument.setNetValue(valor_neto);
+		valor_recibido = valor_neto-retencion-CI;
+		objDocument.setRecivedValue(valor_recibido);
+		valor_total=valor_nominal-retencion+CF;
+		objDocument.setValueTotal(valor_total);
+		TCEA = Math.pow(valor_total/valor_recibido,objRate.getDays()/(double)dias)-1;
+		TCEA = TCEA*100;
 		
 		
-		
-		d = d*100;
-		
-		DecimalFormat formato1 = new DecimalFormat("##.00");
-		System.out.println(CI+"   "+CF);
+		DecimalFormat formato1 = new DecimalFormat("####.000000000");
+		System.out.println(formato1.format(TCEA));
 		document = objDocument;
 		rate = objRate;
 	
+		
 		return "redirect:/document/iractualizarFactura";
 
 	}
