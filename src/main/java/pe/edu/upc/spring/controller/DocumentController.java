@@ -1,5 +1,6 @@
 package pe.edu.upc.spring.controller;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -129,12 +130,50 @@ public class DocumentController {
 			, BindingResult binRes, Model model) throws ParseException {
 
 		
+		objDocument.setTCEA(objRate.getRate());
+		objDocument.setDays(calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate()));
+		double tasa = objRate.getRate()/(double)100;
+		int dias = objDocument.getDays();
+		double valor_nominal;
+		double dias_tasa;
+		double d;
+		double ted;
+		float D;
+		int retencion;
+		//calculo para tasa efectiva
+		valor_nominal = objDocument.getNominalValue();
+		dias_tasa = objRate.getTermRate().getNum_days();
+		ted=Math.pow(1+tasa,dias/dias_tasa)-1;
+		ted= ted*(double)100;  //TE
+		objDocument.setTeD(ted);
+		ted = ted/(double)100;
+		d = ted/(1+ted);
+		objDocument.setDiscountedRate(d); //d
+		D = (float)(valor_nominal*d);
+		objDocument.setDiscountedRate(D);  //D
+		retencion = objDocument.getRetention();
 		
+		
+		double CI =0;
+		for(int i = 0; i < listCostCi.size(); i++) {
+			CI = CI + listCostCi.get(i).getAmount();
+		}
+		
+		double CF =0;
+		for(int i = 0; i < listCostCf.size(); i++) {
+			CF = CF + listCostCf.get(i).getAmount();
+		}
+		
+		
+		
+		
+		d = d*100;
+		
+		DecimalFormat formato1 = new DecimalFormat("##.00");
+		System.out.println(CI+"   "+CF);
 		document = objDocument;
 		rate = objRate;
-		int Dias = calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate());
-		Date fecha = objRate.getDiscountDate();
-		System.out.println(Dias+"           "+fecha.toString());
+	
 		return "redirect:/document/iractualizarFactura";
 
 	}

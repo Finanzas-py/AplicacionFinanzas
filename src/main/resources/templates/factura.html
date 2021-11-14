@@ -22,8 +22,9 @@
 
 	<div th:replace="fragments/header :: header_user"></div>
 
-	<form method=post th:action="@{/document/CrearFactura}" th:object="${document}">
-		<div class="row" >
+	<form method=post th:action="@{/document/CrearFactura}"
+		th:object="${document}">
+		<div class="row">
 			<div class="form-group col-sm-6">
 
 
@@ -142,13 +143,15 @@
 		</div>
 
 
-	<button type="submit" class="btn btn-default" style="position: absolute;top: 120%;">Mostrar</button>
+		<button type="submit" class="btn btn-default"
+			style="position: absolute; top: 120%;">Mostrar</button>
 	</form>
 
 
 	<div class="row">
 		<div class="form-group col-sm-6">
-			<form th:action="@{/document/registrarCostosIniciales}" method="post" th:object="${cost}">
+			<form th:action="@{/document/registrarCostosIniciales}" method="post"
+				th:object="${cost}">
 				<h5>Costo Iniciales</h5>
 
 				<div class="row">
@@ -196,7 +199,8 @@
 		</div>
 
 		<div class="form-group col-sm-6">
-			<form th:action="@{/document/registrarCostosFinales}" method="post" th:object="${cost}">
+			<form th:action="@{/document/registrarCostosFinales}" method="post"
+				th:object="${cost}">
 
 				<h5>Costo finales</h5>
 
@@ -249,18 +253,19 @@
 		</div>
 	</div>
 
-	
-<div th:if="${resultados ==0}">
-<form method=post th:action="@{/document/CrearFactura}" th:object="${bro}">
-<input type="date" class="form-control item"
-							th:field="*{dateOfIssue}" />
 
-</form>
-</div>
+	<div th:if="${resultados ==0}">
+		<form method=post th:action="@{/document/CrearFactura}"
+			th:object="${bro}">
+			<input type="date" class="form-control item"
+				th:field="*{dateOfIssue}" />
 
-<div th:if="${resultados ==1}">
-<h5>AAAAAAA</h5>
-</div>
+		</form>
+	</div>
+
+	<div th:if="${resultados ==1}">
+		<h5>AAAAAAA</h5>
+	</div>
 
 </body>
 </html>

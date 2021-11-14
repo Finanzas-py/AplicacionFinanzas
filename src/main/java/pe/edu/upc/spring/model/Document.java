@@ -64,10 +64,13 @@ public class Document implements Serializable {
 	private double discountedRate;
 	
 	@Column(name = "daysDiscount", length = 150, nullable = false)
-	private int  daysDiscount;
+	private float  daysDiscount;
 	
 	@Column(name = "TCEA", length = 150, nullable = false)
 	private double  TCEA;
+	
+	@Column(name = "teD", length = 150, nullable = false)
+	private double  teD;
 	
 	@ManyToOne
 	@JoinColumn(name = "idUsers", nullable = false)
@@ -101,7 +104,7 @@ public class Document implements Serializable {
 
 	public Document(int idDocument, String name, Date dateOfIssue, Date paymentDate, int nominalValue, int retention,
 			double netValue, int days, double totalInitialCost, double totalFinalCost, double recivedValue,
-			double discountedRate, int daysDiscount, double tCEA, Users user, Company companyTransmitter,
+			double discountedRate, float daysDiscount, double tCEA, double teD, Users user, Company companyTransmitter,
 			Company companyReceiver, pe.edu.upc.spring.model.TypeDocument typeDocument,
 			pe.edu.upc.spring.model.Currency currency, pe.edu.upc.spring.model.Purse purse) {
 		super();
@@ -119,6 +122,7 @@ public class Document implements Serializable {
 		this.discountedRate = discountedRate;
 		this.daysDiscount = daysDiscount;
 		TCEA = tCEA;
+		this.teD = teD;
 		User = user;
 		CompanyTransmitter = companyTransmitter;
 		CompanyReceiver = companyReceiver;
@@ -248,12 +252,12 @@ public class Document implements Serializable {
 	}
 
 
-	public int getDaysDiscount() {
+	public float getDaysDiscount() {
 		return daysDiscount;
 	}
 
 
-	public void setDaysDiscount(int daysDiscount) {
+	public void setDaysDiscount(float daysDiscount) {
 		this.daysDiscount = daysDiscount;
 	}
 
@@ -265,6 +269,16 @@ public class Document implements Serializable {
 
 	public void setTCEA(double tCEA) {
 		TCEA = tCEA;
+	}
+
+
+	public double getTeD() {
+		return teD;
+	}
+
+
+	public void setTeD(double teD) {
+		this.teD = teD;
 	}
 
 
