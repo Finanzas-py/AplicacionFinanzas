@@ -126,6 +126,7 @@ public class DocumentController {
 			, BindingResult binRes, Model model) throws ParseException {
 
 		document = objDocument;
+		rate = objRate;
 		int Dias = calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate());
 		Date fecha = objRate.getDiscountDate();
 		System.out.println(Dias+"           "+fecha.toString());
