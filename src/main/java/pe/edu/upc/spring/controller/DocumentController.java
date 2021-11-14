@@ -155,13 +155,13 @@ public class DocumentController {
 		valor_nominal = objDocument.getNominalValue();
 		dias_tasa = objRate.getTermRate().getNum_days();
 		ted=Math.pow(1+tasa,dias/dias_tasa)-1;
-		ted= ted*(double)100;  //TE
+	//	ted= ted*(double)100;  //TE
 		objDocument.setTeD(ted);
-		ted = ted/(double)100;
+		//ted = ted/(double)100;
 		d = ted/(1+ted);
 		objDocument.setDiscountedRate(d); //d
 		D = (float)(valor_nominal*d);
-		objDocument.setDiscountedRate(D);  //D
+		objDocument.setDaysDiscount(D);  //D
 		retencion = objDocument.getRetention();
 		
 		
@@ -185,6 +185,7 @@ public class DocumentController {
 		valor_total=valor_nominal-retencion+CF;
 		objDocument.setValueTotal(valor_total);
 		TCEA = Math.pow(valor_total/valor_recibido,objRate.getDays()/(double)dias)-1;
+		objDocument.setTCEA(TCEA);
 		TCEA = TCEA*100;
 		
 		

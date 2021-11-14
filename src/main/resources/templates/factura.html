@@ -264,14 +264,129 @@
 		<form th:object="${document}">
 			<div class="row">
 				<div class="form-group col-sm-6">
-					<label for="pwd">(TEA) Tasa Efectiva Anual (sin costes)</label>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(TEA) Tasa Efectiva Anual (sin costes)</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{RateDoc.rate}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(ND) Número de días transcurridos</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item" th:field="*{days}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(TE) Tasa Efectiva a 1 días</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item" th:field="*{teD}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(d) Tasa Descontada a 1 días</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{discountedRate}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(D) Descuento por 1 días</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{daysDiscount}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(Rt) Retención</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{retention}" />
+						</div>
+					</div>
 				</div>
+
+
+
+
 				<div class="form-group col-sm-6">
-					<input type="text" class="form-control item" th:field="*{RateDoc.rate}" />
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(CI) Costes Iniciales Totales</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{totalInitialCost}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(VNet) Valor Neto</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{netValue}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(VR) Valor Total a Recibir</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{recivedValue}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(CF) Costes Finales Totales</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{totalFinalCost}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(VE) Valor Total a Entregar</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item"
+								th:field="*{valueTotal}" />
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="pwd">(TCEA) Tasa de Coste Efectiva Anual</label>
+						</div>
+						<div class="form-group col-sm-6">
+							<input type="text" class="form-control item" th:field="*{TCEA}" />
+						</div>
+					</div>
 				</div>
 			</div>
-
-			
 		</form>
 
 	</div>
