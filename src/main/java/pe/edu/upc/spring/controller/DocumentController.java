@@ -55,8 +55,11 @@ public class DocumentController {
 	private List<Cost> listCostCf;
 	private Rate rate;
 	private Document document;
+	private int resultados;
+	
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
+		resultados =1;
 		rate = null;
 		rate = new Rate();
 		document = new Document();
@@ -70,7 +73,7 @@ public class DocumentController {
 		model.addAttribute("listTermRate", iTermRateService.listTermRate());
 		model.addAttribute("rate", rate);
 		model.addAttribute("document", document);
-
+		model.addAttribute("resultados", resultados);
 		model.addAttribute("cost", new Cost());
 
 		return "factura";
@@ -121,10 +124,12 @@ public class DocumentController {
 
 	}
 	
-	@RequestMapping("/mostrar")
+	@RequestMapping("/CrearFactura")
 	public String mostrar(@ModelAttribute Document objDocument,@ModelAttribute Rate objRate
 			, BindingResult binRes, Model model) throws ParseException {
 
+		
+		
 		document = objDocument;
 		rate = objRate;
 		int Dias = calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate());

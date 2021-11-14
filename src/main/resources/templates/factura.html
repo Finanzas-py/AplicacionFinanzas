@@ -22,7 +22,7 @@
 
 	<div th:replace="fragments/header :: header_user"></div>
 
-	<form method=post th:action="@{/document/mostrar}" th:object="${document}">
+	<form method=post th:action="@{/document/CrearFactura}" th:object="${document}">
 		<div class="row" >
 			<div class="form-group col-sm-6">
 
@@ -250,6 +250,17 @@
 	</div>
 
 	
+<div th:if="${resultados ==0}">
+<form method=post th:action="@{/document/CrearFactura}" th:object="${bro}">
+<input type="date" class="form-control item"
+							th:field="*{dateOfIssue}" />
+
+</form>
+</div>
+
+<div th:if="${resultados ==1}">
+<h5>AAAAAAA</h5>
+</div>
 
 </body>
 </html>
