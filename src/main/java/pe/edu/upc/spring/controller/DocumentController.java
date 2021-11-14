@@ -116,8 +116,15 @@ public class DocumentController {
 
 	@RequestMapping("/a")
 	public String a(Model model) {
-		if(tasa_factura==1) tasa_factura =2;
-		else tasa_factura =1;
+		if(tasa_factura==1) {
+			rate.setRateType(iRateTypeService.listRateType().get(1));
+			tasa_factura =2;
+		
+		}
+		else {
+			rate.setRateType(iRateTypeService.listRateType().get(0));
+			tasa_factura =1;
+		}
 		
 		return "redirect:/document/iractualizarFactura";
 	}
