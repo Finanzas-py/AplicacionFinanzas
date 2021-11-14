@@ -30,12 +30,12 @@ public class Document implements Serializable {
 
 
 	@Column(name = "dateOfIssue", length = 150, nullable = false)
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfIssue;
 
 
 	@Column(name = "paymentDate", length = 150, nullable = false)
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date paymentDate;
 
 	

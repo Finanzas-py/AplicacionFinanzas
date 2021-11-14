@@ -1,6 +1,9 @@
 package pe.edu.upc.spring.controller;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.Cost;
+import pe.edu.upc.spring.model.Document;
 import pe.edu.upc.spring.model.Rate;
 import pe.edu.upc.spring.model.ReasonCf;
 import pe.edu.upc.spring.model.ReasonCi;
@@ -47,24 +51,26 @@ public class DocumentController {
 	@Autowired
 	private ITermRateService iTermRateService;
 
-
 	private List<Cost> listCostCi;
 	private List<Cost> listCostCf;
-	private String idReasonCi;
-	private String idReasonCf;
-
+	private Rate rate;
+	private Document document;
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
+		rate = null;
+		rate = new Rate();
+		document = new Document();
+		listCostCi = null;
+		listCostCi = new ArrayList<Cost>();
+		listCostCf = null;
+		listCostCf = new ArrayList<Cost>();
 		model.addAttribute("user", userController.sessionUser);
 		model.addAttribute("listReasonCi", iReasonCiService.listReasonCi());
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
-		model.addAttribute("listTermRate",iTermRateService.listTermRate());
-		model.addAttribute("rate",new Rate());
-		
-		 listCostCi = null;
-		 listCostCi= new ArrayList<Cost>();
-		 listCostCf = null;
-		 listCostCf= new ArrayList<Cost>();
+		model.addAttribute("listTermRate", iTermRateService.listTermRate());
+		model.addAttribute("rate", rate);
+		model.addAttribute("document", document);
+
 		model.addAttribute("cost", new Cost());
 
 		return "factura";
@@ -77,27 +83,28 @@ public class DocumentController {
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
 		model.addAttribute("listCostInitials", listCostCi);
 		model.addAttribute("listCostFinals", listCostCf);
-		model.addAttribute("listTermRate",iTermRateService.listTermRate());
+		model.addAttribute("listTermRate", iTermRateService.listTermRate());
 		model.addAttribute("cost", new Cost());
-		model.addAttribute("rate", new Rate());
-
+		model.addAttribute("rate", rate);
+		model.addAttribute("document", document);
+		
 		return "factura";
 	}
 
 	@RequestMapping("/registrarCostosIniciales")
 	public String registrarCostoIniciales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
-		
+
 		listCostCi.add(objCost);
 
 		return "redirect:/document/iractualizarFactura";
 
 	}
-	
+
 	@RequestMapping("/registrarCostosFinales")
 	public String registrarCostoFinales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
-	
+
 		listCostCf.add(objCost);
 
 		return "redirect:/document/iractualizarFactura";
@@ -105,11 +112,30 @@ public class DocumentController {
 	}
 
 	@RequestMapping("/prueba")
-	public String  prueba(@ModelAttribute Rate objRate, BindingResult binRes, Model model)
-			throws ParseException {
-		
-		System.out.println(objRate.getDiscountDate().toString());
+	public String prueba(@ModelAttribute Document objDocument, BindingResult binRes, Model model) throws ParseException {
+
+		document = objDocument;
+		int Dias = calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate());
+		System.out.println(Dias);
 		return "redirect:/document/iractualizarFactura";
 
+	}
+	
+	public int calcularEdad(Date dateOfIssue, Date paymentDate) {
+		Calendar fecha1 = Calendar.getInstance();
+		Calendar fecha2 = Calendar.getInstance();
+		fecha1.setTime(dateOfIssue);
+		fecha2.setTime(paymentDate);
+		int y1 = fecha1.get(Calendar.YEAR);
+		int m1 = fecha1.get(Calendar.MONTH);
+		int d1 = fecha1.get(Calendar.DAY_OF_MONTH);
+		int y2 = fecha2.get(Calendar.YEAR);
+		int m2 = fecha2.get(Calendar.MONTH);
+		int d2 = fecha2.get(Calendar.DAY_OF_MONTH);
+	
+		LocalDate fechaemision = LocalDate.of(y1, m1, d1);
+		LocalDate fechaPago = LocalDate.of(y2, m2, d2);
+		Period periodo = Period.between(fechaemision, fechaPago);
+		return periodo.getDays();
 	}
 }
