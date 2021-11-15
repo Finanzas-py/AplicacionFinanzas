@@ -165,9 +165,9 @@ public class DocumentController {
 			, BindingResult binRes, Model model) throws ParseException {
 
 		resultados=1;
-		objDocument.setTCEA(objRate.getRate());
+		
 		objDocument.setDays(calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate()));
-		objDocument.setRateDoc(objRate);
+		
 		int tasa_cap;
 		double tasa ;   //TASA
 		int dias = objDocument.getDays();
@@ -185,10 +185,15 @@ public class DocumentController {
 		double TCEA;
 		
 		if(tasa_factura ==1) { //calculo para tasa efectiva
-		tasa= objRate.getRate()/(double)100;
+			
+		tasa= objRate.getRateNominal()/(double)100;
 		valor_nominal = objDocument.getNominalValue();
 		dias_tasa = objRate.getTermRate().getNum_days();
-		ted=Math.pow(1+tasa,dias/dias_tasa)-1; 
+		tasa = Math.pow(1+tasa,objRate.getDays()/dias_tasa)-1;
+		objRate.setRate(tasa*100);
+		ted=Math.pow(1+tasa,dias/(double)objRate.getDays())-1; 
+		DecimalFormat formato1 = new DecimalFormat("####.000000000");
+		System.out.println(formato1.format(tasa));
 		objDocument.setTeD(ted);
 		d = ted/(1+ted);
 		objDocument.setDiscountedRate(d); //d
@@ -219,9 +224,7 @@ public class DocumentController {
 		TCEA = Math.pow(valor_total/valor_recibido,objRate.getDays()/(double)dias)-1;
 		objDocument.setTCEA(TCEA);
 	
-		
-		DecimalFormat formato1 = new DecimalFormat("####.000000000");
-		System.out.println(formato1.format(TCEA));
+		objDocument.setRateDoc(objRate);
 		document = objDocument;
 		rate = objRate;
 		
@@ -235,9 +238,9 @@ public class DocumentController {
 			valor_nominal = objDocument.getNominalValue();
 			dias_tasa = objRate.getTermRate().getNum_days();
 			tasa = objRate.getRateNominal()/(double)100;
-			tasa = Math.pow(1+(tasa/dias_tasa),objRate.getDays())-1; 
+			tasa = Math.pow(1+(tasa/(dias_tasa/(double)tasa_cap)),(objRate.getDays())/(double)tasa_cap)-1; 
 			objRate.setRate(tasa * 100);
-			ted=Math.pow(1+tasa,dias/dias_tasa)-1; 
+			ted=Math.pow(1+tasa,dias/(double)objRate.getDays())-1;
 			objDocument.setTeD(ted);
 			d = ted/(1+ted);
 			objDocument.setDiscountedRate(d); //d
@@ -271,6 +274,8 @@ public class DocumentController {
 			
 			DecimalFormat formato1 = new DecimalFormat("####.000000000");
 			System.out.println(formato1.format(TCEA));
+			
+			objDocument.setRateDoc(objRate);
 			document = objDocument;
 			rate = objRate;
 			
