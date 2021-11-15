@@ -38,4 +38,20 @@ public class CostServiceImpl implements ICostService {
 		return dCost.findAll();
 	}
 	
+	@Override
+	@Transactional
+	public void delete(int idCost) {
+		dCost.deleteById(idCost);
+		
+	}
+	
+	@Transactional(readOnly = true)
+	public Cost idRef() {
+		return dCost.idRef();
+	}
+	
+	@Transactional(readOnly = true)
+	public int findByIdRef(String idRef) {
+		return dCost.findByIdRef(idRef);
+	}
 }

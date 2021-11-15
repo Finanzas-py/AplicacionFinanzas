@@ -39,12 +39,15 @@ public class Cost implements Serializable {
 	@JoinColumn(name = "idDocument", nullable = true)
 	private Document Document;
 	
+	@Column(name = "idRef", length = 150, nullable = false)
+	private int idRef;	
+	
 	public Cost() {
 		super();
 	}
 
 	public Cost(int idCost, int amount, ReasonCi reasonCi, ReasonCf reasonCf, boolean state,
-			pe.edu.upc.spring.model.Document document) {
+			pe.edu.upc.spring.model.Document document, int idRef) {
 		super();
 		this.idCost = idCost;
 		this.amount = amount;
@@ -52,6 +55,7 @@ public class Cost implements Serializable {
 		this.reasonCf = reasonCf;
 		this.state = state;
 		Document = document;
+		this.idRef = idRef;
 	}
 
 	public int getIdCost() {
@@ -101,4 +105,13 @@ public class Cost implements Serializable {
 	public void setDocument(Document document) {
 		Document = document;
 	}
+
+	public int getIdRef() {
+		return idRef;
+	}
+
+	public void setIdRef(int idRef) {
+		this.idRef = idRef;
+	}
+
 }

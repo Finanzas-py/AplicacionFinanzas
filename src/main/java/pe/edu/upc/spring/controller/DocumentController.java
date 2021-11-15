@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sun.el.parser.ParseException;
 
@@ -76,10 +78,12 @@ public class DocumentController {
 	private List<Cost> listCostCi;
 	private List<Cost> listCostCf;
 	private List<RateType> listRateType;
+	private List<Cost> listCostEliminadosCf;
 	private Rate rate;
 	private Document document;
 	private int resultados;
 	private int tasa_factura;
+	private int contador = 1;
 
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
@@ -139,7 +143,6 @@ public class DocumentController {
 			rate.setRateType(iRateTypeService.listRateType().get(0));
 			tasa_factura = 1;
 		}
-		
 
 		return "redirect:/document/iractualizarFactura";
 	}
@@ -154,51 +157,54 @@ public class DocumentController {
 
 	}
 
-	@RequestMapping("/Modificar")
-	public String registrarCostoIniciales() throws ParseException {
-		listCostCi = null;
-		listCostCi = new ArrayList<Cost>();
-		listCostCf = null;
-		listCostCf = new ArrayList<Cost>();
-		int max = iDocumentService.listDocument().size()-1;
-		Document d = iDocumentService.listDocument().get(max);
-		int tamano=iCostService.listCost().size();
-	
-		for (int i = 0; i < tamano; i++) {
-			Cost cost = iCostService.listCost().get(i);
-			
-			if(cost.getDocument().getIdDocument()-1 ==  max && cost.isState() == false) { //CI
-				listCostCi.add(cost);
-				
-
-			}
-			else if(cost.getDocument().getIdDocument()-1 ==  max && cost.isState() == true){ 
-				listCostCf.add(cost);
-				
-			}
-		}
-		
-		if(d.getRateDoc().getRateType().getIdRateType() == 1) tasa_factura = 1;
-		else tasa_factura = 2;
-		
-		rate = d.getRateDoc();
-		resultados=0;
-		document =d;
-		
-		
-		return "redirect:/document/iractualizarFactura";
-
-	}
 	@RequestMapping("/registrarCostosFinales")
 	public String registrarCostoFinales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
 
-		listCostCf.add(objCost);
+		objCost.setIdRef(contador);
+		contador = contador + 1;
 
+		listCostCf.add(objCost);
 		return "redirect:/document/iractualizarFactura";
 
 	}
 
+	@RequestMapping("/Modificar")
+	public String modificar() throws ParseException {
+		listCostCi = null;
+		listCostCi = new ArrayList<Cost>();
+		listCostCf = null;
+		listCostCf = new ArrayList<Cost>();
+		int max = iDocumentService.listDocument().size() - 1;
+		Document d = iDocumentService.listDocument().get(max);
+		int tamano = iCostService.listCost().size();
+
+		for (int i = 0; i < tamano; i++) {
+			Cost cost = iCostService.listCost().get(i);
+
+			if (cost.getDocument().getIdDocument() - 1 == max && cost.isState() == false) { // CI
+				cost.setIdRef(contador);
+				listCostCi.add(cost);
+
+			} else if (cost.getDocument().getIdDocument() - 1 == max && cost.isState() == true) {
+				cost.setIdRef(contador);
+				listCostCf.add(cost);
+			}
+			contador = contador + 1;
+		}
+
+		if (d.getRateDoc().getRateType().getIdRateType() == 1)
+			tasa_factura = 1;
+		else
+			tasa_factura = 2;
+
+		rate = d.getRateDoc();
+		resultados = 0;
+		document = d;
+
+		return "redirect:/document/iractualizarFactura";
+
+	}
 
 	@RequestMapping("/CrearFactura")
 	public String mostrar(@ModelAttribute Document objDocument, @ModelAttribute Rate objRate, BindingResult binRes,
@@ -268,6 +274,8 @@ public class DocumentController {
 			objDocument.setCompanyTransmitter(userController.sessionUser.getCompany());
 			objDocument.setCompanyReceiver(userController.sessionUser.getCompany());
 
+			objDocument.setIdDocument(document.getIdDocument());
+			objRate.setIdRate(rate.getIdRate());
 			boolean registro_exitoso_tasa = iRateService.save(objRate);
 
 			if (registro_exitoso_tasa) {
@@ -277,9 +285,41 @@ public class DocumentController {
 
 				if (registro_exitoso_document) {
 
+					for (int i = 0; i < listCostCi.size(); i++) { // elimina lista Ci
+						Cost cost = listCostCi.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+						}
+						System.out.println("ACTUALIZADO");
+					}
+
+					for (int i = 0; i < listCostCf.size(); i++) { // elimina lista Cf
+						Cost cost = listCostCf.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+						}
+						System.out.println("ACTUALIZADO");
+					}
+
+				/*	for (int i = 0; i < listCostEliminadosCf.size(); i++) { // elimina lista Cf ya registrados
+						Cost costeliminar = listCostCf.get(i);
+
+						if (costeliminar.getDocument() != null) {
+							for (int j = 0; j < listCostCf.size(); j++) {
+								Cost cost = listCostCf.get(i);
+								if (costeliminar.getIdRef() == cost.getIdRef()) {
+									iCostService.delete(costeliminar.getIdCost());
+								}
+
+							}
+							System.out.println("COSTO REGISTRADO ELIMINADO");
+						}
+					}*/
+
 					for (int i = 0; i < listCostCi.size(); i++) {
 						Cost cost = listCostCi.get(i);
 						cost.setState(false);
+						cost.setIdRef(0);
 						cost.setDocument(objDocument);
 						iCostService.save(cost);
 					}
@@ -287,16 +327,17 @@ public class DocumentController {
 					for (int i = 0; i < listCostCf.size(); i++) {
 						Cost cost = listCostCf.get(i);
 						cost.setState(true);
+						cost.setIdRef(0);
 						cost.setDocument(objDocument);
 						iCostService.save(cost);
 					}
 
 					System.out.println("REGISTRO EXITOSO");
-					
+
 				}
 
 			}
-
+			contador = 1;
 			////////////
 			document = objDocument;
 			rate = objRate;
@@ -388,6 +429,28 @@ public class DocumentController {
 
 		return "redirect:/document/iractualizarFactura";
 
+	}
+
+	@RequestMapping("/eliminar")
+	public String eliminar(Map<String, Object> model, @RequestParam(value = "id") Integer id) {
+		try {
+
+			System.out.println(id);
+			if (id != null) {
+
+				for (int i = 0; i < listCostCf.size(); i++) {
+					if (listCostCf.get(i).getIdRef() == id) {
+						listCostEliminadosCf.add(listCostCf.get(i));
+						listCostCf.remove(i);
+						System.out.println("ELIMINADO EXITOSO");
+					}
+				}
+
+			}
+		} catch (Exception ex) {
+
+		}
+		return "redirect:/document/iractualizarFactura";
 	}
 
 	public int calcularEdad(Date dateOfIssue, Date paymentDate) {
