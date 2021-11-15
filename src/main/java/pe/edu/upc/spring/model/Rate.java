@@ -26,8 +26,6 @@ public class Rate implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idRate;
 
-	@Column(name = "name", length = 150, nullable = false)
-	private String name;
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -41,7 +39,7 @@ public class Rate implements Serializable {
 	private double rate;
 
 	@ManyToOne
-	@JoinColumn(name = "idCTermRate", nullable = true)
+	@JoinColumn(name = "idCTermRate", nullable = false)
 	private TermRate termRate;
 	
 	@ManyToOne
@@ -49,7 +47,7 @@ public class Rate implements Serializable {
 	private TermRate termRateCapital;
 	
 	@ManyToOne
-	@JoinColumn(name = "idRateType", nullable = true)
+	@JoinColumn(name = "idRateType", nullable = false)
 	private RateType RateType;
 	
 	@Column(name = "rateNominal", length = 150, nullable = false)
@@ -61,11 +59,10 @@ public class Rate implements Serializable {
 	}
 
 
-	public Rate(int idRate, String name, Date discountDate, int days, double rate, TermRate termRate,
-			TermRate termRateCapital, pe.edu.upc.spring.model.RateType rateType, double rateNominal) {
+	public Rate(int idRate, Date discountDate, int days, double rate, TermRate termRate, TermRate termRateCapital,
+			pe.edu.upc.spring.model.RateType rateType, double rateNominal) {
 		super();
 		this.idRate = idRate;
-		this.name = name;
 		this.discountDate = discountDate;
 		this.days = days;
 		this.rate = rate;
@@ -83,16 +80,6 @@ public class Rate implements Serializable {
 
 	public void setIdRate(int idRate) {
 		this.idRate = idRate;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 
@@ -165,5 +152,4 @@ public class Rate implements Serializable {
 		this.rateNominal = rateNominal;
 	}
 
-	
 }

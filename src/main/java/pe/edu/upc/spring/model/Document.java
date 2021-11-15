@@ -25,10 +25,6 @@ public class Document implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idDocument;
 
-	@Column(name = "name", length = 150, nullable = false)
-	private String name;
-
-
 	@Column(name = "dateOfIssue", length = 150, nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dateOfIssue;
@@ -92,12 +88,8 @@ public class Document implements Serializable {
 	@JoinColumn(name = "idTypeDocument", nullable = false)
 	private TypeDocument TypeDocument;
 	
-	@OneToOne
-	@JoinColumn(name = "idCurrency", nullable = false)
-	private Currency Currency;
-	
 	@ManyToOne
-	@JoinColumn(name = "idPurse", nullable = false)
+	@JoinColumn(name = "idPurse", nullable = true)
 	private Purse Purse;
 	
 	@ManyToOne
@@ -110,14 +102,13 @@ public class Document implements Serializable {
 	}
 
 
-	public Document(int idDocument, String name, Date dateOfIssue, Date paymentDate, int nominalValue, int retention,
+	public Document(int idDocument, Date dateOfIssue, Date paymentDate, int nominalValue, int retention,
 			double netValue, int days, double totalInitialCost, double totalFinalCost, double recivedValue,
 			double discountedRate, float daysDiscount, double tCEA, double teD, double valueTotal, Users user,
 			Company companyTransmitter, Company companyReceiver, pe.edu.upc.spring.model.TypeDocument typeDocument,
-			pe.edu.upc.spring.model.Currency currency, pe.edu.upc.spring.model.Purse purse, Rate rateDoc) {
+			pe.edu.upc.spring.model.Purse purse, Rate rateDoc) {
 		super();
 		this.idDocument = idDocument;
-		this.name = name;
 		this.dateOfIssue = dateOfIssue;
 		this.paymentDate = paymentDate;
 		this.nominalValue = nominalValue;
@@ -136,7 +127,6 @@ public class Document implements Serializable {
 		CompanyTransmitter = companyTransmitter;
 		CompanyReceiver = companyReceiver;
 		TypeDocument = typeDocument;
-		Currency = currency;
 		Purse = purse;
 		RateDoc = rateDoc;
 	}
@@ -149,16 +139,6 @@ public class Document implements Serializable {
 
 	public void setIdDocument(int idDocument) {
 		this.idDocument = idDocument;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 
@@ -342,16 +322,6 @@ public class Document implements Serializable {
 	}
 
 
-	public Currency getCurrency() {
-		return Currency;
-	}
-
-
-	public void setCurrency(Currency currency) {
-		Currency = currency;
-	}
-
-
 	public Purse getPurse() {
 		return Purse;
 	}
@@ -371,4 +341,5 @@ public class Document implements Serializable {
 		RateDoc = rateDoc;
 	}
 
+	
 }

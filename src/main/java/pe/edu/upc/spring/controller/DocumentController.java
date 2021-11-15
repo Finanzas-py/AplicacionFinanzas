@@ -32,10 +32,13 @@ import pe.edu.upc.spring.model.TypeDocument;
 import pe.edu.upc.spring.model.Users;
 import pe.edu.upc.spring.service.ICompanyService;
 import pe.edu.upc.spring.service.ICostService;
+import pe.edu.upc.spring.service.IDocumentService;
+import pe.edu.upc.spring.service.IRateService;
 import pe.edu.upc.spring.service.IRateTypeService;
 import pe.edu.upc.spring.service.IReasonCfService;
 import pe.edu.upc.spring.service.IReasonCiService;
 import pe.edu.upc.spring.service.ITermRateService;
+import pe.edu.upc.spring.service.ITypeDocumentService;
 import pe.edu.upc.spring.service.ITypeService;
 import pe.edu.upc.spring.service.IUserService;
 
@@ -57,6 +60,16 @@ public class DocumentController {
 
 	@Autowired
 	private IRateTypeService iRateTypeService;
+	
+	@Autowired
+	private IRateService iRateService;
+	
+	@Autowired
+	private IDocumentService iDocumentService;
+	
+	@Autowired
+	private ITypeDocumentService iTypeDocumentService;
+	
 	
 	private List<Cost> listCostCi;
 	private List<Cost> listCostCf;
@@ -192,8 +205,8 @@ public class DocumentController {
 		tasa = Math.pow(1+tasa,objRate.getDays()/dias_tasa)-1;
 		objRate.setRate(tasa*100);
 		ted=Math.pow(1+tasa,dias/(double)objRate.getDays())-1; 
-		DecimalFormat formato1 = new DecimalFormat("####.000000000");
-		System.out.println(formato1.format(tasa));
+	
+		
 		objDocument.setTeD(ted);
 		d = ted/(1+ted);
 		objDocument.setDiscountedRate(d); //d
@@ -212,6 +225,9 @@ public class DocumentController {
 			CF = CF + listCostCf.get(i).getAmount();
 		}
 		
+		DecimalFormat formato1 = new DecimalFormat("####.000000000");
+		System.out.println(objDocument.getIdDocument());
+		
 		objDocument.setTotalInitialCost(CI);
 		objDocument.setTotalFinalCost(CF);
 		
@@ -224,7 +240,31 @@ public class DocumentController {
 		TCEA = Math.pow(valor_total/valor_recibido,objRate.getDays()/(double)dias)-1;
 		objDocument.setTCEA(TCEA);
 	
-		objDocument.setRateDoc(objRate);
+		 
+		
+		
+		///////////////           REGISTRO EN LA BASE DE DATOS
+		objDocument.setUser(userController.sessionUser);
+		objDocument.setCompanyTransmitter(userController.sessionUser.getCompany());
+		objDocument.setCompanyReceiver(userController.sessionUser.getCompany());
+		
+		boolean registro_exitoso_tasa = iRateService.save(objRate);
+		
+		if(registro_exitoso_tasa) {
+			objDocument.setRateDoc(objRate);  
+			objDocument.setTypeDocument(iTypeDocumentService.listTypeDocument().get(0));
+			boolean registro_exitoso_document = iDocumentService.save(objDocument);
+			
+			if(registro_exitoso_document) {
+				System.out.println("REGISTRO EXITOSO");
+			}
+			
+		}
+		
+	
+		
+
+		////////////
 		document = objDocument;
 		rate = objRate;
 		
@@ -273,11 +313,35 @@ public class DocumentController {
 		
 			
 			DecimalFormat formato1 = new DecimalFormat("####.000000000");
-			System.out.println(formato1.format(TCEA));
+			System.out.println(formato1.format(objDocument.getIdDocument()));
 			
-			objDocument.setRateDoc(objRate);
+			
+			
+			///////////////           REGISTRO EN LA BASE DE DATOS
+			objDocument.setUser(userController.sessionUser);
+			objDocument.setCompanyTransmitter(userController.sessionUser.getCompany());
+			objDocument.setCompanyReceiver(userController.sessionUser.getCompany());
+			
+			boolean registro_exitoso_tasa = iRateService.save(objRate);
+			
+			if(registro_exitoso_tasa) {
+				objDocument.setRateDoc(objRate);  
+				objDocument.setTypeDocument(iTypeDocumentService.listTypeDocument().get(0));
+				boolean registro_exitoso_document = iDocumentService.save(objDocument);
+				
+				if(registro_exitoso_document) System.out.println("REGISTRO EXITOSO");
+				
+			}
+			
+		
+			
+
+			////////////
+			
 			document = objDocument;
 			rate = objRate;
+			
+			
 			
 			//Operaciones que se mostraran en patanlla
 			document.setTeD(ted*(double)100);

@@ -32,7 +32,7 @@ public class Cost implements Serializable {
 	@JoinColumn(name = "idReasonCf", nullable = true)
 	private ReasonCf reasonCf;
 
-	@Column(name = "state", length = 150, nullable = true)
+	@Column(name = "state", length = 150, nullable = false)
 	private boolean state;	
 
 
