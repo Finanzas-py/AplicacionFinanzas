@@ -101,6 +101,4 @@ public class Cost implements Serializable {
 	public void setDocument(Document document) {
 		Document = document;
 	}
-
-
 }

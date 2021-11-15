@@ -17,6 +17,5 @@ import pe.edu.upc.spring.model.Users;
 @Repository
 public interface ICostRepository extends JpaRepository<Cost, Integer>{
 	
-	
-	
+
 }

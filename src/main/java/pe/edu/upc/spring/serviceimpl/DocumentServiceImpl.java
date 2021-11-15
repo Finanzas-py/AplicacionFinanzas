@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import pe.edu.upc.spring.model.Cost;
 import pe.edu.upc.spring.model.Document;
 import pe.edu.upc.spring.repository.ICompanyRepository;
 import pe.edu.upc.spring.repository.IDocumentRepository;
@@ -30,5 +31,10 @@ public class DocumentServiceImpl implements IDocumentService {
 			return true;
 	}
 
+
+	@Transactional(readOnly = true)
+	public List<Document> listDocument() {
+		return dDocument.findAll();
+	}
 	
 }

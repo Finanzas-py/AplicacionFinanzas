@@ -139,6 +139,7 @@ public class DocumentController {
 			rate.setRateType(iRateTypeService.listRateType().get(0));
 			tasa_factura = 1;
 		}
+		
 
 		return "redirect:/document/iractualizarFactura";
 	}
@@ -153,6 +154,41 @@ public class DocumentController {
 
 	}
 
+	@RequestMapping("/Modificar")
+	public String registrarCostoIniciales() throws ParseException {
+		listCostCi = null;
+		listCostCi = new ArrayList<Cost>();
+		listCostCf = null;
+		listCostCf = new ArrayList<Cost>();
+		int max = iDocumentService.listDocument().size()-1;
+		Document d = iDocumentService.listDocument().get(max);
+		int tamano=iCostService.listCost().size();
+	
+		for (int i = 0; i < tamano; i++) {
+			Cost cost = iCostService.listCost().get(i);
+			
+			if(cost.getDocument().getIdDocument()-1 ==  max && cost.isState() == false) { //CI
+				listCostCi.add(cost);
+				
+
+			}
+			else if(cost.getDocument().getIdDocument()-1 ==  max && cost.isState() == true){ 
+				listCostCf.add(cost);
+				
+			}
+		}
+		
+		if(d.getRateDoc().getRateType().getIdRateType() == 1) tasa_factura = 1;
+		else tasa_factura = 2;
+		
+		rate = d.getRateDoc();
+		resultados=0;
+		document =d;
+		
+		
+		return "redirect:/document/iractualizarFactura";
+
+	}
 	@RequestMapping("/registrarCostosFinales")
 	public String registrarCostoFinales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
@@ -163,16 +199,6 @@ public class DocumentController {
 
 	}
 
-	/*
-	 * @RequestMapping("/prueba") public String prueba(@ModelAttribute Document
-	 * objDocument, BindingResult binRes, Model model) throws ParseException {
-	 * 
-	 * document = objDocument; int Dias =
-	 * calcularEdad(objDocument.getDateOfIssue(),objDocument.getPaymentDate());
-	 * System.out.println(Dias); return "redirect:/document/iractualizarFactura";
-	 * 
-	 * }
-	 */
 
 	@RequestMapping("/CrearFactura")
 	public String mostrar(@ModelAttribute Document objDocument, @ModelAttribute Rate objRate, BindingResult binRes,
@@ -266,6 +292,7 @@ public class DocumentController {
 					}
 
 					System.out.println("REGISTRO EXITOSO");
+					
 				}
 
 			}
