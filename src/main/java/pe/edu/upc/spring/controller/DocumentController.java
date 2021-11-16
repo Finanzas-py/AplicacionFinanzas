@@ -83,7 +83,7 @@ public class DocumentController {
 	private Document document;
 	private int resultados;
 	private int tasa_factura;
-	private int contador = 1;
+	private int contador = 0;
 
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
@@ -98,6 +98,8 @@ public class DocumentController {
 		listCostCf = new ArrayList<Cost>();
 		listRateType = null;
 		listRateType = new ArrayList<RateType>();
+		listCostEliminadosCf = null;
+		listCostEliminadosCf = new ArrayList<Cost>();
 		model.addAttribute("user", userController.sessionUser);
 		model.addAttribute("listReasonCi", iReasonCiService.listReasonCi());
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
@@ -162,6 +164,7 @@ public class DocumentController {
 			throws ParseException {
 
 		objCost.setIdRef(contador);
+		System.out.println(objCost.getIdRef());
 		contador = contador + 1;
 
 		listCostCf.add(objCost);
@@ -175,6 +178,9 @@ public class DocumentController {
 		listCostCi = new ArrayList<Cost>();
 		listCostCf = null;
 		listCostCf = new ArrayList<Cost>();
+		listCostEliminadosCf = null;
+		listCostEliminadosCf = new ArrayList<Cost>();
+		
 		int max = iDocumentService.listDocument().size() - 1;
 		Document d = iDocumentService.listDocument().get(max);
 		int tamano = iCostService.listCost().size();
@@ -434,16 +440,20 @@ public class DocumentController {
 	@RequestMapping("/eliminar")
 	public String eliminar(Map<String, Object> model, @RequestParam(value = "id") Integer id) {
 		try {
-
-			System.out.println(id);
+			
+			int m =listCostCf.size();
+			System.out.println(m);
 			if (id != null) {
-
-				for (int i = 0; i < listCostCf.size(); i++) {
-					if (listCostCf.get(i).getIdRef() == id) {
-						listCostEliminadosCf.add(listCostCf.get(i));
+	
+				for (int i = 0; i < m ; i++) {
+					Cost cost = listCostCf.get(i);
+					if (cost.getIdRef() == id) {
+						listCostEliminadosCf.add(cost);
 						listCostCf.remove(i);
 						System.out.println("ELIMINADO EXITOSO");
 					}
+					System.out.println(listCostCf.get(i).getIdRef()+"    "+i);
+			
 				}
 
 			}

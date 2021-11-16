@@ -12,7 +12,6 @@ public interface ICostService {
 	public List<Cost> listCost();
 	public void delete(int idCost);
 	public boolean save(Cost cost);
-	public Cost idRef();
-	public int findByIdRef(String idRef);
+
 }
 
