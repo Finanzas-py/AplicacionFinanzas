@@ -292,13 +292,18 @@
 						<tr>
 							<th class="text-center">Motivo</th>
 							<th class="text-center">Monto</th>
-
+							<th class="text-center">Operacion</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="ci: ${listCostInitials}">
 							<td style="text-align: center" th:text="${ci.reasonCi.name}"></td>
 							<td style="text-align: center" th:text="${ci.amount}"></td>
+							<td style="text-align: center"><a
+								th:href="@{/document/eliminar?id=}+${ci.idRef}" class="comment"
+								title="Comment" data-toggle="tooltip"><i
+									class="material-icons">&#xe872;</i></a></td>
+
 
 						</tr>
 					</tbody>
@@ -355,10 +360,10 @@
 							<td style="text-align: center" th:text="${cf.reasonCf.name}"></td>
 							<td style="text-align: center" th:text="${cf.amount}"></td>
 							<td style="text-align: center"><a
-										th:href="@{/document/eliminar?id=}+${cf.idRef}" class="comment"
-										title="Comment" data-toggle="tooltip"><i
-											class="material-icons">&#xe872;</i></a></td>
-									
+								th:href="@{/document/eliminar?id=}+${cf.idRef}" class="comment"
+								title="Comment" data-toggle="tooltip"><i
+									class="material-icons">&#xe872;</i></a></td>
+
 						</tr>
 					</tbody>
 				</table>

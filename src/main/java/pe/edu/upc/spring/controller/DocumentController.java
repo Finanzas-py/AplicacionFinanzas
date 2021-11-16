@@ -79,6 +79,7 @@ public class DocumentController {
 	private List<Cost> listCostCf;
 	private List<RateType> listRateType;
 	private List<Cost> listCostEliminadosCf;
+	private List<Cost> listCostEliminadosCi;
 	private Rate rate;
 	private Document document;
 	private int resultados;
@@ -88,6 +89,7 @@ public class DocumentController {
 	@RequestMapping("/irRegistrarFactura")
 	public String irPaginaRegistrar(Model model) {
 		tasa_factura = 1;
+		contador = 0;
 		resultados = 0;
 		rate = null;
 		rate = new Rate();
@@ -100,6 +102,8 @@ public class DocumentController {
 		listRateType = new ArrayList<RateType>();
 		listCostEliminadosCf = null;
 		listCostEliminadosCf = new ArrayList<Cost>();
+		listCostEliminadosCi = null;
+		listCostEliminadosCi = new ArrayList<Cost>();
 		model.addAttribute("user", userController.sessionUser);
 		model.addAttribute("listReasonCi", iReasonCiService.listReasonCi());
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
@@ -153,6 +157,10 @@ public class DocumentController {
 	public String registrarCostoIniciales(@ModelAttribute Cost objCost, BindingResult binRes, Model model)
 			throws ParseException {
 
+		objCost.setIdRef(contador);
+
+		contador = contador + 1;
+
 		listCostCi.add(objCost);
 
 		return "redirect:/document/iractualizarFactura";
@@ -164,7 +172,7 @@ public class DocumentController {
 			throws ParseException {
 
 		objCost.setIdRef(contador);
-		
+
 		contador = contador + 1;
 
 		listCostCf.add(objCost);
@@ -180,7 +188,7 @@ public class DocumentController {
 		listCostCf = new ArrayList<Cost>();
 		listCostEliminadosCf = null;
 		listCostEliminadosCf = new ArrayList<Cost>();
-		
+
 		int max = iDocumentService.listDocument().size() - 1;
 		Document d = iDocumentService.listDocument().get(max);
 		int tamano = iCostService.listCost().size();
@@ -206,7 +214,9 @@ public class DocumentController {
 
 		rate = d.getRateDoc();
 		listCostEliminadosCf = null;
-		listCostEliminadosCf =new ArrayList<Cost>();
+		listCostEliminadosCf = new ArrayList<Cost>();
+		listCostEliminadosCi = null;
+		listCostEliminadosCi = new ArrayList<Cost>();
 		resultados = 0;
 		document = d;
 
@@ -308,18 +318,25 @@ public class DocumentController {
 						}
 						System.out.println("ACTUALIZADO");
 					}
-					
-					int m =listCostEliminadosCf.size();
-					for (int i = 0; i < m; i++) { // elimina lista Cf
+
+					int m = listCostEliminadosCf.size();
+					for (int i = 0; i < m; i++) { // elimina registro de cf
 						Cost cost = listCostEliminadosCf.get(i);
 						if (cost.getDocument() != null) {
 							iCostService.delete(cost.getIdCost());
-							System.out.println("listCostEliminadosCf");
-						}
 						
-					}
+						}
 
-				
+					}
+					m = listCostEliminadosCi.size();
+					for (int i = 0; i < m; i++) {  // elimina registro de cf
+						Cost cost = listCostEliminadosCi.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+							
+						}
+
+					}
 
 					for (int i = 0; i < listCostCi.size(); i++) {
 						Cost cost = listCostCi.get(i);
@@ -439,20 +456,27 @@ public class DocumentController {
 	@RequestMapping("/eliminar")
 	public String eliminar(Map<String, Object> model, @RequestParam(value = "id") Integer id) {
 		try {
-			
-			int m =listCostCf.size();
-			System.out.println(m);
+
+			int n = listCostCf.size();
+			int m = listCostCi.size();
+			System.out.println(n+"   "+m);
 			if (id != null) {
-	
-				for (int i = 0; i < m ; i++) {
+
+				for (int i = 0; i < n; i++) {
 					Cost cost = listCostCf.get(i);
 					if (cost.getIdRef() == id) {
 						listCostEliminadosCf.add(cost);
 						listCostCf.remove(i);
 						System.out.println("ELIMINADO EXITOSO");
 					}
-					System.out.println(listCostCf.get(i).getIdRef()+"    "+i);
-			
+				}
+				for (int i = 0; i < m; i++) {
+					Cost cost = listCostCi.get(i);
+					if (cost.getIdRef() == id) {
+						listCostEliminadosCi.add(cost);
+						listCostCi.remove(i);
+						System.out.println("ELIMINADO EXITOSO");
+					}
 				}
 
 			}
