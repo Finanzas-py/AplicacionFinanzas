@@ -205,6 +205,8 @@ public class DocumentController {
 			tasa_factura = 2;
 
 		rate = d.getRateDoc();
+		listCostEliminadosCf = null;
+		listCostEliminadosCf =new ArrayList<Cost>();
 		resultados = 0;
 		document = d;
 
