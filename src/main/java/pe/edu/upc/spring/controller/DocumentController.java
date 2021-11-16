@@ -164,7 +164,7 @@ public class DocumentController {
 			throws ParseException {
 
 		objCost.setIdRef(contador);
-		System.out.println(objCost.getIdRef());
+		
 		contador = contador + 1;
 
 		listCostCf.add(objCost);
