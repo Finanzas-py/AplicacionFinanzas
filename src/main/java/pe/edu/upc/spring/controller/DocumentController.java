@@ -306,21 +306,18 @@ public class DocumentController {
 						}
 						System.out.println("ACTUALIZADO");
 					}
-
-				/*	for (int i = 0; i < listCostEliminadosCf.size(); i++) { // elimina lista Cf ya registrados
-						Cost costeliminar = listCostCf.get(i);
-
-						if (costeliminar.getDocument() != null) {
-							for (int j = 0; j < listCostCf.size(); j++) {
-								Cost cost = listCostCf.get(i);
-								if (costeliminar.getIdRef() == cost.getIdRef()) {
-									iCostService.delete(costeliminar.getIdCost());
-								}
-
-							}
-							System.out.println("COSTO REGISTRADO ELIMINADO");
+					
+					int m =listCostEliminadosCf.size();
+					for (int i = 0; i < m; i++) { // elimina lista Cf
+						Cost cost = listCostEliminadosCf.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+							System.out.println("listCostEliminadosCf");
 						}
-					}*/
+						
+					}
+
+				
 
 					for (int i = 0; i < listCostCi.size(); i++) {
 						Cost cost = listCostCi.get(i);
@@ -343,7 +340,7 @@ public class DocumentController {
 				}
 
 			}
-			contador = 1;
+			contador = 0;
 			////////////
 			document = objDocument;
 			rate = objRate;
