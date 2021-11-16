@@ -406,11 +406,13 @@ public class DocumentController {
 			DecimalFormat formato1 = new DecimalFormat("####.000000000");
 			System.out.println(formato1.format(objDocument.getIdDocument()));
 
-///////////////           REGISTRO EN LA BASE DE DATOS
+/////////////// REGISTRO EN LA BASE DE DATOS
 			objDocument.setUser(userController.sessionUser);
 			objDocument.setCompanyTransmitter(userController.sessionUser.getCompany());
 			objDocument.setCompanyReceiver(userController.sessionUser.getCompany());
 
+			objDocument.setIdDocument(document.getIdDocument());
+			objRate.setIdRate(rate.getIdRate());
 			boolean registro_exitoso_tasa = iRateService.save(objRate);
 
 			if (registro_exitoso_tasa) {
@@ -420,9 +422,45 @@ public class DocumentController {
 
 				if (registro_exitoso_document) {
 
+					for (int i = 0; i < listCostCi.size(); i++) { // elimina lista Ci
+						Cost cost = listCostCi.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+						}
+						System.out.println("ACTUALIZADO");
+					}
+
+					for (int i = 0; i < listCostCf.size(); i++) { // elimina lista Cf
+						Cost cost = listCostCf.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+						}
+						System.out.println("ACTUALIZADO");
+					}
+
+					int m = listCostEliminadosCf.size();
+					for (int i = 0; i < m; i++) { // elimina registro de cf
+						Cost cost = listCostEliminadosCf.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+						
+						}
+
+					}
+					m = listCostEliminadosCi.size();
+					for (int i = 0; i < m; i++) {  // elimina registro de cf
+						Cost cost = listCostEliminadosCi.get(i);
+						if (cost.getDocument() != null) {
+							iCostService.delete(cost.getIdCost());
+							
+						}
+
+					}
+
 					for (int i = 0; i < listCostCi.size(); i++) {
 						Cost cost = listCostCi.get(i);
 						cost.setState(false);
+						cost.setIdRef(0);
 						cost.setDocument(objDocument);
 						iCostService.save(cost);
 					}
@@ -430,15 +468,17 @@ public class DocumentController {
 					for (int i = 0; i < listCostCf.size(); i++) {
 						Cost cost = listCostCf.get(i);
 						cost.setState(true);
+						cost.setIdRef(0);
 						cost.setDocument(objDocument);
 						iCostService.save(cost);
 					}
 
 					System.out.println("REGISTRO EXITOSO");
+
 				}
 
 			}
-
+			contador = 0;
 			////////////
 			document = objDocument;
 			rate = objRate;
