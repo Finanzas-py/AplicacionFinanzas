@@ -80,7 +80,6 @@ public class DocumentController {
 	private List<RateType> listRateType;
 	private List<Cost> listCostEliminadosCf;
 	private List<Cost> listCostEliminadosCi;
-
 	private Rate rate;
 	private Document document;
 	private int resultados;
@@ -110,7 +109,6 @@ public class DocumentController {
 		model.addAttribute("listReasonCf", iReasonCfService.listReasonCf());
 		model.addAttribute("listTermRate", iTermRateService.listTermRate());
 		model.addAttribute("listRateType", iRateTypeService.listRateType());
-
 		model.addAttribute("listTermRateCapital", iTermRateService.listTermRate());
 		model.addAttribute("tasa_factura", tasa_factura);
 		model.addAttribute("rate", rate);
