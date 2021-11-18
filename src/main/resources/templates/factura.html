@@ -99,8 +99,8 @@
 						<label>Tipo de tasa </label>
 					</div>
 
-					<div class="form-group col-sm-3">
-						<select class="form-control itemselect" th:field="*{RateType}">
+					<div class="form-group col-sm-3" >
+						<select class="form-control itemselect" th:field="*{RateType}" >
 							<option th:each="rt: ${listRateType}" th:value="${rt.idRateType}"
 								th:text="${rt.rateName}" th:selected="(${rt}==*{RateType})"></option>
 						</select>
@@ -515,5 +515,9 @@
 			style="position: absolute; top: 120%; left: 10%;">Modificar</button>
 	</form>
 
+<form th:action="@{/document/irRegistrarFactura}" method="post">
+		<button type="submit" class="btn btn-default"
+			style="position: absolute; top: 120%; left: 20%;">Nuevo</button>
+	</form>
 </body>
 </html>
